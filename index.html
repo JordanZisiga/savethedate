@@ -1,21 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta property="og:title" content="SAVE THE DATE"/>
-    <meta property="og:description" content="Come join us in Kenya to celebrate our wedding"/>
-    <meta property="og:url" content="https://skuma.wiki"/>
-    <meta property="og:type" content="website"/>
-    <title>Jordan & Zisiga — Save the Date</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zisiga & Jordan — November 2026</title>
 
+    <!-- Open Graph -->
+    <meta property="og:title" content="Zisiga & Jordan — November 2026">
+    <meta property="og:description" content="Join us for our wedding celebration at Sanctuary Farm, Naivasha, Kenya. November 27–29, 2026.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="photos/wedding-collage-preview.png">
+
+    <!-- Favicon (inline SVG data URI as fallback) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
     <style>
       @font-face {
-        font-family: "Signifier";
-        font-weight: 300;
+        font-family: 'Signifier';
+        src: url("https://skuma.wiki/fonts/signifier-regular.woff2") format('woff2');
+        font-weight: 400;
         font-style: normal;
-        src: url("fonts/signifier-light.woff2") format("woff2");
+        font-display: swap;
+      }
+
+      /*
+       PALETTE
+        ================================
+
+        LIGHT CONTEXT (white bg):
+          --primary:    #000
+          --secondary:  rgba(0,0,0,0.7)
+          --tertiary:   rgba(0,0,0,0.5)
+          --rule:       rgba(0,0,0,0.1)
+          --surface:    #fff
+          --surface-alt:#f5f5f5
+
+        DARK CONTEXT (black bg):
+          --primary:    #fff
+          --secondary:  rgba(255,255,255,0.7)
+          --tertiary:   rgba(255,255,255,0.5)
+          --rule:       rgba(255,255,255,0.12)
+          --surface:    #000
+
+        ACCENT:
+          --accent:     #c6f135
+      */
+      :root {
+        --primary: #000;
+        --secondary: rgba(0,0,0,0.7);
+        --tertiary: rgba(0,0,0,0.5);
+        --rule: rgba(0,0,0,0.1);
+        --surface: #fff;
+        --surface-alt: #f5f5f5;
+        --accent: #c6f135;
       }
 
       * {
@@ -25,42 +61,1166 @@
       }
 
       body {
-        color: black;
-        font-family: "Signifier", Georgia, serif;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 1.5rem;
+        line-height: 1.3;
         font-weight: 300;
-        font-size: 1.3rem;
-        line-height: 1.2;
-        padding: 2rem;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+        color: var(--primary);
+        background: var(--surface);
+        -webkit-font-smoothing: antialiased;
       }
 
-      main {
-        max-width: 520px;
+      ::selection {
+        background: var(--primary);
+        color: var(--surface);
       }
 
-      p {
-        margin-bottom: 1.5rem;
+      .page {
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        max-width: 50rem;
+        min-height: 80vh;
+        align-content: center;
+      }
+
+      .hero {
+        text-align: center;
+        background: #000;
+        color: #fff;
+        margin: 0;
+        padding: 4rem 0;
+      }
+
+      .gap {
+        height: 3rem;
+      }
+      .gap-sm {
+        height: 1.5rem;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 2rem 0;
       }
 
       a {
-        color: #BEDF7C;
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+        transition: opacity 0.2s;
+      }
+      a:hover {
+        opacity: 0.5;
       }
 
+      /* ---- Nav ---- */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: stretch;
+        height: 2.75rem;
+        padding: 0 1.5rem;
+        background: rgba(255,255,255,0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .nav.is-hidden {
+        transform: translateY(-100%);
+      }
+      .nav a {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 1.5rem;
+        white-space: nowrap;
+        color: var(--tertiary);
+        text-decoration: none;
+        transition: color 0.3s;
+        cursor: pointer;
+        user-select: none;
+      }
+      .nav a:first-child {
+        padding-left: 0;
+      }
+      .nav a:last-child {
+        padding-right: 0;
+      }
+      .nav a:hover {
+        color: var(--secondary);
+        opacity: 1;
+      }
+      .nav a.is-active {
+        color: var(--primary);
+        flex: 1;
+      }
+      .nav a::before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--rule);
+        transition: background 0.3s;
+      }
+      .nav a.is-active::before {
+        background: var(--primary);
+      }
+      .nav a:hover::before {
+        background: var(--tertiary);
+      }
+      .nav a.is-active:hover::before {
+        background: var(--primary);
+      }
+
+      @media (max-width: 40em) {
+        .nav {
+          height: 2.5rem;
+          padding: 0 1rem;
+        }
+        .nav a {
+          padding: 0 0.6rem;
+        }
+      }
+      @media (max-width: 30em) {
+        .nav {
+          padding: 0 0.75rem;
+        }
+        .nav a {
+          padding: 0 0.4rem;
+        }
+      }
+
+      /* ---- Sections ---- */
+      section {
+        padding: 6rem 0 4rem;
+      }
+      section + section {
+        border-top: 1px solid var(--rule);
+      }
+      section.dark,
+      section.dark + section,
+      section.muted,
+      section.muted + section {
+        border-top: none;
+      }
+      section.dark {
+        background: #000;
+        color: #fff;
+        margin: 0;
+        padding: 4rem 0;
+      }
+      section.dark .page {
+        max-width: 50rem;
+      }
+      section.dark hr {
+        border-color: rgba(255,255,255,0.12);
+      }
+      section.dark a {
+        color: #fff;
+      }
+      section.dark .dim {
+        color: rgba(255,255,255,0.5);
+      }
+      section.dark .dimmer {
+        color: rgba(255,255,255,0.3);
+      }
+      section.muted {
+        background: var(--surface-alt);
+        margin: 0 -9999px;
+        padding: 4rem 9999px;
+      }
+      section.muted .page {
+        max-width: 50rem;
+      }
+
+      /* ---- Typography ---- */
+      h1 {
+        font-size: 8rem;
+        font-weight: 400;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+      }
+
+      h2 {
+        font-size: 4rem;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 2rem;
+      }
+
+      .dek {
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-top: -2rem;
+        max-width: 50vw;
+        margin: 0 auto;
+        text-wrap: balance;
+      }
+
+      p {
+        margin-bottom: 0.5rem;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+      .dim {
+        color: var(--secondary);
+      }
+      .dimmer {
+        color: var(--tertiary);
+      }
+
+      /* ---- About ---- */
+      .about-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      .about-col p {
+        margin-bottom: 1rem;
+      }
+      .about-col em {
+        font-style: italic;
+      }
+      .about-photo {
+        margin: 1.5rem 0;
+        overflow: hidden;
+      }
+      .about-photo img {
+        width: 100%;
+        display: block;
+        filter: grayscale(0.3);
+        transition: filter 0.5s;
+      }
+      .about-photo:hover img {
+        filter: grayscale(0);
+      }
+      @media (max-width: 40em) {
+        .about-cols {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+      }
+
+      /* ---- Schedule ---- */
+      .day {
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+      }
+      .day:last-child {
+        margin-bottom: 0;
+      }
+      .day p:first-child {
+        margin-bottom: 0.75rem;
+        text-decoration: underline;
+      }
+      .day p:nth-child(2) {
+        color: var(--secondary);
+      }
+      .map {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 1px solid var(--rule);
+        overflow: hidden;
+        margin: 1.5rem 0;
+      }
+      .map iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        filter: grayscale(1) contrast(1.05);
+        transition: filter 0.5s;
+      }
+      .map:hover iframe {
+        filter: grayscale(0.5) contrast(1);
+      }
+
+      /* ---- Stays ---- */
+      .stays {
+        display: grid;
+        gap: 1.5rem;
+      }
+      .stays article {
+        padding: 1.25rem 0;
+        border-top: 1px solid var(--rule);
+      }
+      .stays article:last-child {
+        border-bottom: 1px solid var(--rule);
+      }
+      .stays p:first-child {
+        margin-bottom: 0.25rem;
+      }
+      .stays p:last-child {
+        color: var(--secondary);
+      }
+      #stay .about-cols {
+        align-items: stretch;
+      }
+      #stay .about-photo {
+        margin: 0;
+        min-height: 16rem;
+      }
+      #stay .about-photo img {
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* ---- Packing List Overlay ---- */
+      .packing-trigger {
+        background-color: var(--accent);
+        color: black;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+        padding: 0 0.25rem;
+      }
+      .packing-trigger:hover {
+        opacity: 0.7;
+      }
+      .packing-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s, visibility 0.4s;
+      }
+      .packing-overlay.is-visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .packing-card {
+        position: relative;
+        background: var(--accent);
+        color: #000;
+        max-width: 50rem;
+        width: 100%;
+        padding: 3rem;
+        transform: translateY(16px) scale(0.98);
+        transition: transform 0.4s;
+      }
+      .packing-overlay.is-visible .packing-card {
+        transform: translateY(0) scale(1);
+      }
+      .packing-card h3 {
+        font-size: 3rem;
+        font-weight: 400;
+        line-height: 1;
+        margin-bottom: 2rem;
+      }
+      .packing-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        font-size: 4rem;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.3);
+        transition: color 0.2s;
+        font-family: 'Signifier', Georgia, serif;
+        line-height: 1;
+      }
+      .packing-close:hover {
+        color: #000;
+      }
+      .packing-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      .packing-cat {
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        font-size: 1.125rem;
+      }
+      .packing-cols p {
+        font-size: 1.5rem;
+        line-height: 1;
+      }
+      @media (max-width: 30em) {
+        .packing-card {
+          padding: 2rem;
+        }
+        .packing-card h3 {
+          font-size: 2.25rem;
+        }
+        .packing-cols {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+      }
+
+      /* ---- Accordion ---- */
+      .accordion details {
+        border-top: 1px solid rgba(0,0,0,0.15);
+      }
+      .accordion details:last-child {
+        border-bottom: 1px solid rgba(0,0,0,0.15);
+      }
+      .accordion summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 0;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 2rem;
+        font-weight: 800;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        transition: opacity 0.2s;
+      }
+      .accordion summary:hover {
+        opacity: 0.6;
+      }
+      .accordion summary::-webkit-details-marker {
+        display: none;
+      }
+      .accordion summary::marker {
+        content: '';
+      }
+      .accordion summary::after {
+        content: '+';
+        font-size: 3rem;
+        font-weight: 300;
+        color: var(--tertiary);
+        transition: transform 0.3s;
+        flex-shrink: 0;
+        margin-left: 2rem;
+      }
+      details[open] summary::after {
+        content: '-';
+        font-size: 3rem;
+        font-weight: 300;
+      }
+      .accordion-body {
+        padding-bottom: 1.5rem;
+      }
+      .accordion-body .faq dt:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .accordion-body .faq dt {
+        font-weight: 800;
+        padding-top: 1.25rem;
+        padding-bottom: 0.5rem;
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+      .accordion-body .faq dd {
+        padding-bottom: 1.25rem;
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+      .accordion-body .faq dd:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      /* ---- RSVP Form ---- */
+      .rsvp-choices {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+      .rsvp-choices button {
+        flex: 1;
+        padding: 0.875rem 1rem;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.12);
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 1.5rem;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .rsvp-choices button:hover {
+        border-color: rgba(255,255,255,0.5);
+      }
+      .rsvp-choices button.is-selected {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #000;
+      }
+      .rsvp-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 1.25rem;
+        animation: slideIn 0.4s;
+      }
+      .rsvp-fields.is-hidden {
+        display: none;
+      }
+      .rsvp-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+      }
+      input[type="text"],
+      input[type="email"],
+      select {
+        width: 100%;
+        padding: 0.75rem 0;
+        border: none;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        background: transparent;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 1.5rem;
+        color: #fff;
+        outline: none;
+        border-radius: 0;
+      }
+      input:focus,
+      select:focus {
+        border-color: #fff;
+      }
+      input::placeholder {
+        color: rgba(255,255,255,0.3);
+      }
+      select {
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-opacity='0.4' stroke-width='1.5' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right center;
+      }
+      select option {
+        background: #000;
+        color: #fff;
+      }
+      .rsvp-submit {
+        margin-top: 2rem;
+        padding: 0.75rem 2rem;
+        background: var(--accent);
+        color: #000;
+        border: none;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .rsvp-submit:hover {
+        background: #b8e230;
+      }
+      @media (max-width: 30em) {
+        .rsvp-choices {
+          flex-direction: column;
+        }
+        .rsvp-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---- Modal ---- */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s, visibility 0.4s;
+      }
+      .modal-overlay.is-visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-overlay dialog {
+        background: #fff;
+        max-width: 24rem;
+        width: 100%;
+        padding: 3rem;
+        border: none;
+        text-align: center;
+        color: #000;
+        transform: translateY(16px) scale(0.98);
+        transition: transform 0.4s;
+      }
+      .modal-overlay.is-visible dialog {
+        transform: translateY(0) scale(1);
+      }
+      .modal-overlay .icon {
+        font-size: 4rem;
+        margin-bottom: 0.75rem;
+        display: block;
+      }
+      .modal-overlay h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+      }
+      .modal-overlay p {
+        font-size: 1.5rem;
+        color: var(--secondary);
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+      .modal-overlay button {
+        padding: 0.625rem 1.5rem;
+        background: #000;
+        color: #fff;
+        border: none;
+        font: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .modal-overlay button:hover {
+        background: var(--secondary);
+      }
+
+      /* ---- Footer ---- */
       footer {
-        margin-top: auto;
-        max-width: 480px;
+        padding: 3rem 0;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        text-align: center;
+        background: var(--accent);
+      }
+
+      /* ---- Animations ---- */
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-6px);
+        }
+        40% {
+          transform: translateX(6px);
+        }
+        60% {
+          transform: translateX(-4px);
+        }
+        80% {
+          transform: translateX(4px);
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <p>Jordan & Zisiga are cordially inviting you to our wedding on November 27th to November 29th, 2026. The wedding will happen in Kenya. We will have more details very soon.</p>
-      <p>Stay up to date: This site is where you will find more information in time.</p>
-    </main>
+
+    <nav class="nav is-hidden" id="nav">
+      <a data-to="hero">The Invitation</a>
+      <a data-to="rsvp">Join Us</a>
+      <a data-to="schedule">The Weekend</a>
+      <a data-to="travel">Getting There</a>
+      <a data-to="stay">Where to Stay</a>
+      <a data-to="faq">Good to Know</a>
+    </nav>
+
+    <section class="hero" id="hero">
+      <div class="page">
+        <h1>Zisiga &<br>Jordan</h1>
+        <div class="dek">Request the pleasure of your company at their wedding celebration.</div>
+        <img src="photos/wedding-collage.png" alt="Zisiga and Jordan" style="width:100%;">
+        <div class="dek">November 27–29, 2026<br>Sanctuary Farm · Naivasha · Kenya</div>
+      </div>
+    </section>
+
+    <section class="dark" id="rsvp">
+      <div class="page" style="text-align: center;">
+        <h2>Join Us</h2>
+        <p class="dim">Please respond by June 1, 2026</p>
+        <form id="rsvpForm">
+          <p class="dim">Will you join us?</p>
+          <div class="gap"></div>
+          <div class="rsvp-choices">
+            <button type="button" id="btnYes">Joyfully Accept</button>
+            <button type="button" id="btnNo">Regretfully Decline</button>
+          </div>
+          <div class="rsvp-fields is-hidden" id="acceptFields">
+            <div class="rsvp-row">
+              <input type="text" name="name" placeholder="Name">
+              <input type="email" name="email" placeholder="Email address">
+            </div>
+            <div class="rsvp-row">
+              <input type="text" name="departureCity" placeholder="Departure city">
+              <input type="text" name="whatsapp" placeholder="WhatsApp number">
+            </div>
+            <div class="rsvp-row">
+              <input type="text" name="flight" placeholder="Flight number">
+              <input type="text" name="arrivalTime" placeholder="Arrival time in Nairobi">
+            </div>
+            <select name="accommodation">
+              <option value="">Accommodation preference</option>
+
+              <option>I'll arrange my own</option>
+              <option>Need help deciding</option>
+            </select>
+            <input type="text" name="dietary" placeholder="Dietary restrictions or accessibility needs">
+          </div>
+          <div class="rsvp-fields is-hidden" id="declineFields">
+            <div class="rsvp-row">
+              <input type="text" name="declineName" placeholder="Name">
+              <input type="email" name="declineEmail" placeholder="Email address">
+            </div>
+            <input type="text" name="declineMessage" placeholder="Send a message (optional)">
+          </div>
+          <button type="submit" class="rsvp-submit" id="submitBtn">Submit RSVP</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="dark" id="about">
+      <div class="page">
+        <h2>About</h2>
+        <div class="about-cols">
+          <div class="about-col">
+            <p>We met in Copenhagen in the summer of 2019 — two people far from home who happened to end up at the same dinner table. What started as a conversation about architecture and bad airport food became something neither of us expected.</p>
+            <figure class="about-photo">
+              <img src="your-photo-1.jpg" alt="Zisiga and Jordan in Copenhagen">
+            </figure>
+            <p>After two years of transatlantic calls and badly timed flights, we decided the distance had taught us enough. Jordan moved to New York, and the city finally made sense.</p>
+          </div>
+          <div class="about-col">
+            <p>
+              <em>Sanctuary Farm</em> sits on the shores of Lake Naivasha in Kenya's Great Rift Valley — a wildlife conservancy where giraffes wander through open grasslands and the sky stretches wider than anywhere we've ever been.</p>
+            <figure class="about-photo">
+              <img src="your-photo-2.jpg" alt="Sanctuary Farm, Naivasha">
+            </figure>
+            <p>We chose this place because it felt like the beginning of something. A landscape that doesn't let you shrink. We can't wait to share it with the people who matter most to us.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <div class="page">
+        <h2>The Weekend</h2>
+        <div id="scheduleList"></div>
+      </div>
+    </section>
+
+    <section class="dark" id="travel">
+      <div class="page">
+        <h2>Getting There</h2>
+        <p>Fly into Nairobi's Jomo Kenyatta International Airport (NBO). We recommend arriving at least on Thursday with a buffer night for a well rested start.</p>
+        <div class="gap-sm"></div>
+        <p>The easiest way to get around is Uber. It's easily available, reliable, and very affordable. You'll see Uber Chapchap which are smaller budget Ubers perfect for short trips. And if you're feeling adventurous, Matatus are iconic and could in theory get you where you want. But just use Uber.</p>
+        <hr>
+        <p>
+          <strong>Shuttles</strong>
+        </p>
+        <p class="dim">We're working on arranging group shuttles between Nairobi and Naivasha for the main arrival and departure days. Details will be shared as we get closer.</p>
+        <p class="dimmer">Nairobi  ▸  Naivasha — To be confirmed<br>Naivasha  ▸  Nairobi — To be confirmed</p>
+        <div class="gap-sm"></div>
+
+      </div>
+    </section>
+
+    <section id="stay">
+      <div class="page">
+        <h2 style="text-align: center;">Where to Stay</h2>
+        <div class="about-cols">
+          <div>
+            <p>We're putting together a list of places to stay in and around Naivasha — from options on Sanctuary Farm to nearby hotels and Airbnbs. Details coming soon.</p>
+
+          </div>
+          <figure class="about-photo">
+            <img src="https://cdn.audleytravel.com/1050/750/79/489552-boat-trip-on-lake-naivasha.webp" alt="Naivasha area">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="muted" id="faq">
+      <div class="page">
+        <h2>Good to Know</h2>
+        <div class="accordion">
+          <details>
+            <summary>Before You Go</summary>
+            <div class="accordion-body">
+              <dl class="faq">
+                <dt>Do I need a visa?</dt>
+                <dd>Most likely, yes. Kenya's e-visa costs $30 and takes about 10 minutes to apply. Do it at least a week before you fly.</dd>
+                <dt>When should I arrive?</dt>
+                <dd>We recommend arriving Thursday, November 26 and staying in Nairobi that night. You'll be rested and ready for the shuttle to Naivasha on Friday.</dd>
+                <dt>What should I pack?</dt>
+                <dd>November is Kenya's "short rains" season — warm days (70–80°F) with possible afternoon showers. Bring layers, a light rain jacket, and comfortable shoes. The ceremony is semi-formal.
+                  <p class="dim">
+                    <a href="#" class="packing-trigger">here's a packing list</a>
+                  </p>
+                </dd>
+              </dl>
+            </div>
+          </details>
+          <details>
+            <summary>While You're There</summary>
+            <div class="accordion-body">
+              <dl class="faq">
+                <dt>What's included?</dt>
+                <dd>All wedding events, meals during the weekend, and group transportation we arrange. You book your own flights, accommodation, and activities outside wedding events.</dd>
+                <dt>What if my flight is delayed?</dt>
+                <dd>Join our WhatsApp group before you travel. If you miss a shuttle, contact us — we'll help arrange alternatives.</dd>
+                <dt>Mosquitos & malaria?</dt>
+                <dd>Not too bad this time of year. If malaria medication is recommended for your situation, talk to your doctor before the trip.</dd>
+                <dt>Money, power & phone</dt>
+                <dd>Credit cards work in Nairobi. Some Kenyan Shillings in cash is handy. Kenya uses Type G (UK-style) plugs. Most international phone plans work, or you can grab a local SIM easily.</dd>
+              </dl>
+            </div>
+          </details>
+          <details>
+            <summary>Extending Your Trip</summary>
+            <div class="accordion-body">
+              <dl class="faq">
+                <dt>Can I add a safari or beach trip?</dt>
+                <dd>Absolutely — many guests are planning extra days. We can share recommendations for the Masai Mara, Amboseli, or the coast.</dd>
+              </dl>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <footer>
-      <p>Last update: January 20, 2026</p>
+      <div class="page">We can't wait to see you.</div>
     </footer>
+
+    <div class="modal-overlay" id="modal">
+      <dialog open>
+        <span class="icon" id="modalIcon">💌</span>
+        <h3 id="modalTitle">We can't wait to see you</h3>
+        <p id="modalMsg">Your RSVP has been received.</p>
+        <button id="modalClose">Close</button>
+      </dialog>
+    </div>
+    <div class="packing-overlay" id="packingOverlay">
+      <div class="packing-card">
+        <button class="packing-close" id="packingClose">&times;</button>
+        <h3>Packing List</h3>
+        <div class="packing-cols">
+          <div>
+            <p class="packing-cat">Ceremony</p>
+            <p>Semi-formal outfit</p>
+            <p>Comfortable dress shoes</p>
+            <p>A light layer for evening</p>
+          </div>
+          <div>
+            <p class="packing-cat">Daytime</p>
+            <p>Light breathable layers</p>
+            <p>Comfortable walking shoes</p>
+            <p>Sunglasses & sunscreen</p>
+            <p>Hat or cap</p>
+          </div>
+          <div>
+            <p class="packing-cat">Essentials</p>
+            <p>Light rain jacket</p>
+            <p>Mosquito repellent</p>
+            <p>Type G plug adapter</p>
+            <p>Passport & e-visa</p>
+          </div>
+          <div>
+            <p class="packing-cat">Nice to Have</p>
+            <p>Binoculars for wildlife</p>
+            <p>Camera</p>
+            <p>Reusable water bottle</p>
+            <p>Kenyan Shillings (some cash)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollToPlugin.min.js"></script>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+      const SCHEDULE = [
+        {
+          date: 'Friday, November 27, 2026',
+          body: 'Shuttles will depart Nairobi around midday for the scenic drive to Naivasha. After arrival and time to settle in, join us at Sanctuary Farm for cocktails, dinner, and a welcome gathering under the stars.'
+        }, {
+          date: 'Saturday, November 28, 2026',
+          body: 'Guests staying in Naivasha are invited to enjoy a relaxed morning exploring the area. In the afternoon, we will gather at Sanctuary Farm, overlooking Lake Naivasha, for the ceremony and celebration, followed by dinner and drinks.<br><br> For guests joining us for the day, Sanctuary Farm is approximately 90 km from Nairobi (about a 1.5-hour drive). Parking will be available on-site.<br>',
+          map: true
+        }, {
+          date: 'Sunday, November 29, 2026',
+          body: 'We’ll close the weekend with a farewell brunch before departures. Return shuttle timing and details will be shared closer to the date.'
+        }
+      ];
+
+      const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwxZ9rl9n-dmYLFeaNE2iA5BW0Fv0QoXubmoo8AU8SWbdLFOAFWgdkazWK2QXbu/exec';
+      const MAP_EMBED = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.0!2d36.35!3d-0.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182991239f504b23%3A0x7eb6b0e5b3b3c1e0!2sLake%20Naivasha!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske';
+      const MAP_LINK = 'https://www.google.com/maps/dir/Jomo+Kenyatta+International+Airport,+Nairobi/Lake+Naivasha';
+
+      const $ = (s, el = document) => el.querySelector(s);
+      const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+
+      $('#scheduleList').innerHTML = SCHEDULE
+        .map(
+          s => `
+        <div class="day">
+          <p>${s.date}</p>
+          <p>${s.body}</p>
+          ${s.map
+          ? `
+            <div class="map"><iframe src="${MAP_EMBED}" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+            <p class="dimmer">Sanctuary Farm, Naivasha · 90 km from Nairobi · ~1.5 hours — <a href="${MAP_LINK}" target="_blank">Open in Google Maps</a></p>
+          `
+          : ''}
+        </div>
+      `)
+        .join('');
+
+      /* ---- Nav ---- */
+      const nav = $('#nav');
+      const navLinks = $$('a', nav);
+      const sectionEls = navLinks.map(a => $(`#${a.dataset.to}`));
+
+      ScrollTrigger.create({
+        start: 100,
+        end: 99999,
+        onUpdate: self => nav
+          .classList
+          .toggle('is-hidden', !self.isActive)
+      });
+
+      navLinks.forEach(a => {
+        a.addEventListener('click', () => gsap.to(window, {
+          duration: 1,
+          scrollTo: `#${a.dataset.to}`,
+          ease: 'power2.inOut'
+        }));
+      });
+
+      function updateNav() {
+        const threshold = innerHeight * 0.4;
+        let active = 0;
+        for (let i = sectionEls.length - 1; i >= 0; i--) {
+          if (sectionEls[i].getBoundingClientRect().top <= threshold) {
+            active = i;
+            break;
+          }
+        }
+        if (scrollY + innerHeight >= document.documentElement.scrollHeight - 10) 
+          active = sectionEls.length - 1;
+        navLinks.forEach((a, i) => a.classList.toggle('is-active', i === active));
+      }
+
+      let ticking = false;
+      addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateNav();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+      updateNav();
+
+      /* ---- RSVP ---- */
+      const form = $('#rsvpForm');
+      const btnYes = $('#btnYes');
+      const btnNo = $('#btnNo');
+      const acceptFields = $('#acceptFields');
+      const declineFields = $('#declineFields');
+      const submitBtn = $('#submitBtn');
+      const modal = $('#modal');
+      let attending = null;
+
+      function setAttending(yes) {
+        attending = yes;
+        btnYes
+          .classList
+          .toggle('is-selected', yes);
+        btnNo
+          .classList
+          .toggle('is-selected', !yes);
+        acceptFields
+          .classList
+          .toggle('is-hidden', !yes);
+        declineFields
+          .classList
+          .toggle('is-hidden', yes);
+        $('[name="name"]').required = yes;
+        $('[name="email"]').required = yes;
+        $('[name="declineName"]').required = !yes;
+        $('[name="declineEmail"]').required = !yes;
+        submitBtn.textContent = yes
+          ? 'Submit RSVP'
+          : 'Send Regrets';
+      }
+
+      function showModal(accepted) {
+        $('#modalIcon').textContent = accepted
+          ? '💌'
+          : '💔';
+        $('#modalTitle').textContent = accepted
+          ? "We can't wait to see you"
+          : "We'll miss you";
+        $('#modalMsg').textContent = accepted
+          ? "Your RSVP has been received. Keep an eye on your inbox for updates and travel details as we get closer to November."
+          : "Thank you for letting us know. We'll be thinking of you and hope to celebrate together another time.";
+        modal
+          .classList
+          .add('is-visible');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function hideModal() {
+        modal
+          .classList
+          .remove('is-visible');
+        document.body.style.overflow = '';
+      }
+
+      btnYes.addEventListener('click', () => setAttending(true));
+      btnNo.addEventListener('click', () => setAttending(false));
+      $('#modalClose').addEventListener('click', hideModal);
+      modal.addEventListener('click', e => {
+        if (e.target === modal) 
+          hideModal();
+        }
+      );
+      addEventListener('keydown', e => {
+        if (e.key === 'Escape') 
+          hideModal();
+        }
+      );
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        if (attending === null) {
+          [btnYes, btnNo].forEach(b => {
+            b.style.animation = 'shake 0.4s';
+            setTimeout(() => b.style.animation = '', 400);
+          });
+          return;
+        }
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        const val = name => $(`[name="${name}"]`)
+          ?.value || '';
+        const data = attending
+          ? {
+            attending: true,
+            name: val('name'),
+            email: val('email'),
+            departureCity: val('departureCity'),
+            whatsapp: val('whatsapp'),
+            flight: val('flight'),
+            arrivalTime: val('arrivalTime'),
+            shuttle: val('shuttle'),
+            accommodation: val('accommodation'),
+            dietary: val('dietary')
+          }
+          : {
+            attending: false,
+            name: val('declineName'),
+            email: val('declineEmail'),
+            departureCity: '',
+            whatsapp: '',
+            flight: '',
+            arrivalTime: '',
+            shuttle: '',
+            accommodation: '',
+            dietary: val('declineMessage')
+          };
+        try {
+          await fetch(ENDPOINT, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+          showModal(attending);
+          form.reset();
+          acceptFields
+            .classList
+            .add('is-hidden');
+          declineFields
+            .classList
+            .add('is-hidden');
+          btnYes
+            .classList
+            .remove('is-selected');
+          btnNo
+            .classList
+            .remove('is-selected');
+          attending = null;
+        } catch  {
+          alert('Something went wrong. Please try again or contact us directly.');
+        } finally {
+          submitBtn.textContent = 'Submit RSVP';
+          submitBtn.disabled = false;
+        }
+      });
+
+      /* ---- Packing List ---- */
+      const packingOverlay = $('#packingOverlay');
+
+      $$('.packing-trigger').forEach(trigger => {
+        trigger.addEventListener('click', e => {
+          e.preventDefault();
+          packingOverlay
+            .classList
+            .add('is-visible');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      $('#packingClose').addEventListener('click', () => {
+        packingOverlay
+          .classList
+          .remove('is-visible');
+        document.body.style.overflow = '';
+      });
+
+      packingOverlay.addEventListener('click', e => {
+        if (e.target === packingOverlay) {
+          packingOverlay
+            .classList
+            .remove('is-visible');
+          document.body.style.overflow = '';
+        }
+      });
+
+      addEventListener('keydown', e => {
+        if (e.key === 'Escape' && packingOverlay.classList.contains('is-visible')) {
+          packingOverlay
+            .classList
+            .remove('is-visible');
+          document.body.style.overflow = '';
+        }
+      });
+    </script>
   </body>
 </html>
