@@ -22,34 +22,12 @@
         font-display: swap;
       }
 
-      /*
-       PALETTE
-        ================================
-
-        LIGHT CONTEXT (white bg):
-          --primary:    #000
-          --secondary:  rgba(0,0,0,0.7)
-          --tertiary:   rgba(0,0,0,0.5)
-          --rule:       rgba(0,0,0,0.1)
-          --surface:    #fff
-          --surface-alt:#f5f5f5
-
-        DARK CONTEXT (black bg):
-          --primary:    #fff
-          --secondary:  rgba(255,255,255,0.7)
-          --tertiary:   rgba(255,255,255,0.5)
-          --rule:       rgba(255,255,255,0.12)
-          --surface:    #000
-
-        ACCENT:
-          --accent:     #c6f135
-      */
       :root {
         --primary: #000;
         --secondary: rgba(0,0,0,0.7);
         --tertiary: rgba(0,0,0,0.5);
         --rule: rgba(0,0,0,0.1);
-        --surface: #fff;
+        --surface: #e8e8e8;
         --surface-alt: #f5f5f5;
         --accent: #c6f135;
       }
@@ -63,12 +41,12 @@
       body {
         font-family: 'Signifier', Georgia, serif;
         font-size: 1.5rem;
-        line-height: 1.3;
-        font-weight: 300;
+        line-height: 1.5;
+        font-weight: 400;
         color: var(--primary);
         background: var(--surface);
         -webkit-font-smoothing: antialiased;
-        overflow-x: hidden; 
+        overflow-x: hidden;
       }
 
       ::selection {
@@ -81,13 +59,15 @@
         padding: 0 1.5rem;
         max-width: 50rem;
         min-height: 80vh;
+        /* FIX 4: align-content needs grid/flex context to work */
+        display: grid;
         align-content: center;
       }
 
       .hero {
         text-align: center;
         background: #000;
-        color: #fff;
+        color: #e8e8e8;
         margin: 0;
         padding: 4rem 0;
       }
@@ -129,7 +109,9 @@
         background: rgba(255,255,255,0.8);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
+        /* FIX 3: Use will-change for smoother transform transitions */
         transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
       }
       .nav.is-hidden {
         transform: translateY(-100%);
@@ -215,7 +197,7 @@
       }
       section.dark {
         background: #000;
-        color: #fff;
+        color: #e8e8e8;
         margin: 0;
         padding: 4rem 0;
       }
@@ -226,7 +208,7 @@
         border-color: rgba(255,255,255,0.12);
       }
       section.dark a {
-        color: #fff;
+        color: #e8e8e8;
       }
       section.dark .dim {
         color: rgba(255,255,255,0.5);
@@ -234,10 +216,10 @@
       section.dark .dimmer {
         color: rgba(255,255,255,0.3);
       }
+      /* FIX 1: Replace negative margin hack with a proper full-width background */
       section.muted {
         background: var(--surface-alt);
-        margin: 0 -9999px;
-        padding: 4rem 9999px;
+        padding: 4rem 0;
       }
       section.muted .page {
         max-width: 50rem;
@@ -253,7 +235,7 @@
       }
 
       h2 {
-  font-size: clamp(1.5rem, 12vw, 4rem);
+        font-size: clamp(1.5rem, 12vw, 4rem);
         font-weight: 800;
         line-height: 1.15;
         margin-bottom: 2rem;
@@ -263,7 +245,6 @@
         font-size: 2rem;
         font-weight: 800;
         line-height: 1.15;
-        margin-top: -2rem;
         margin: 0 auto;
         text-wrap: balance;
       }
@@ -313,6 +294,25 @@
         }
       }
 
+      /* ---- Transcript ---- */
+      .transcript p {
+        margin-bottom: 0.75rem;
+      }
+      .transcript-direction {
+        color: rgba(255,255,255,0.5);
+        margin-bottom: 1.5rem !important;
+        font-size: 1.25rem;
+      }
+      .transcript-question {
+        font-weight: 800;
+        margin-top: 2rem !important;
+        margin-bottom: 1rem !important;
+      }
+      .transcript hr {
+        border-color: rgba(255,255,255,0.12);
+        margin: 2rem 0;
+      }
+
       /* ---- Schedule ---- */
       .day {
         margin-top: 5rem;
@@ -340,6 +340,8 @@
         height: 100%;
         border: 0;
         filter: grayscale(1) contrast(1.05);
+        /* FIX 5: Use will-change to reduce repaint jank on iframe filter */
+        will-change: filter;
         transition: filter 0.5s;
       }
       .map:hover iframe {
@@ -385,6 +387,17 @@
         padding: 0 0.25rem;
       }
       .packing-trigger:hover {
+        opacity: 0.7;
+      }
+      /* FIX 7: Separate style for map trigger links (no packing overlay behavior) */
+      .map-trigger {
+        background-color: var(--accent);
+        color: black;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+        padding: 0 0.25rem;
+      }
+      .map-trigger:hover {
         opacity: 0.7;
       }
       .packing-overlay {
@@ -534,6 +547,17 @@
         padding-bottom: 0;
       }
 
+      /* Dark accordion variant */
+      section.dark .accordion details {
+        border-color: rgba(255,255,255,0.12);
+      }
+      section.dark .accordion details:last-child {
+        border-color: rgba(255,255,255,0.12);
+      }
+      section.dark .accordion summary::after {
+        color: rgba(255,255,255,0.5);
+      }
+
       /* ---- RSVP Form ---- */
       .rsvp-choices {
         display: flex;
@@ -547,7 +571,7 @@
         border: 1px solid rgba(255,255,255,0.12);
         font-family: 'Signifier', Georgia, serif;
         font-size: 1.5rem;
-        color: #fff;
+        color: #e8e8e8;
         cursor: pointer;
         transition: 0.3s;
       }
@@ -584,13 +608,13 @@
         background: transparent;
         font-family: 'Signifier', Georgia, serif;
         font-size: 1.5rem;
-        color: #fff;
+        color: #e8e8e8;
         outline: none;
         border-radius: 0;
       }
       input:focus,
       select:focus {
-        border-color: #fff;
+        border-color: #e8e8e8;
       }
       input::placeholder {
         color: rgba(255,255,255,0.3);
@@ -605,7 +629,7 @@
       }
       select option {
         background: #000;
-        color: #fff;
+        color: #e8e8e8;
       }
       .rsvp-submit {
         margin-top: 2rem;
@@ -650,12 +674,13 @@
         visibility: visible;
       }
       .modal-overlay dialog {
-        background: #fff;
+        background: #e8e8e8;
         max-width: 24rem;
         width: 100%;
         padding: 3rem;
         border: none;
         text-align: center;
+        margin: 0;
         color: #000;
         transform: translateY(16px) scale(0.98);
         transition: transform 0.4s;
@@ -682,7 +707,7 @@
       .modal-overlay button {
         padding: 0.625rem 1.5rem;
         background: #000;
-        color: #fff;
+        color: #e8e8e8;
         border: none;
         font: inherit;
         font-size: 1rem;
@@ -734,7 +759,7 @@
 
     <nav class="nav is-hidden" id="nav">
       <a data-to="hero">The Invitation</a>
-      <a data-to="rsvp">Join Us</a>
+      <a data-to="love-birds">The Love Birds</a>
       <a data-to="schedule">The Weekend</a>
       <a data-to="travel">Getting There</a>
       <a data-to="stay">Where to Stay</a>
@@ -744,16 +769,16 @@
     <section class="hero" id="hero">
       <div class="page">
         <h1>Zisiga &<br>Jordan</h1>
-        <div class="dek">Request the pleasure of your company at their wedding celebration.</div>
+        <div class="dek">Invite you to celebrate our wedding with us.</div>
         <img src="photos/wedding-collage.png" alt="Zisiga and Jordan" style="width:100%;">
         <div class="dek">November 27–29, 2026<br>Sanctuary Farm · Naivasha · Kenya</div>
       </div>
     </section>
 
-    <section class="dark" id="rsvp">
+    <section class="dark">
       <div class="page" style="text-align: center;">
-        <h2>Join Us</h2>
-        <p class="dim">Please respond by June 1, 2026</p>
+        <h2>RSVP</h2>
+        <p class="dim">Please get back to us by May 15, 2026.</p>
         <form id="rsvpForm">
           <p class="dim">Will you join us?</p>
           <div class="gap"></div>
@@ -763,29 +788,29 @@
           </div>
           <div class="rsvp-fields is-hidden" id="acceptFields">
             <div class="rsvp-row">
-              <input type="text" name="name" placeholder="Name">
+              <input type="text" name="name" placeholder="Name(s)">
               <input type="email" name="email" placeholder="Email address">
             </div>
             <div class="rsvp-row">
-              <input type="text" name="departureCity" placeholder="Departure city">
-              <input type="text" name="whatsapp" placeholder="WhatsApp number">
-            </div>
-            <div class="rsvp-row">
-              <input type="text" name="flight" placeholder="Flight number">
-              <input type="text" name="arrivalTime" placeholder="Arrival time in Nairobi">
+              <input type="text" name="phone" placeholder="Phone number">
+              <input type="text" name="dietary" placeholder="Dietary restrictions or accessibility needs">
             </div>
             <select name="accommodation">
               <option value="">Accommodation preference</option>
-
               <option>I'll arrange my own</option>
               <option>Need help deciding</option>
             </select>
-            <input type="text" name="dietary" placeholder="Dietary restrictions or accessibility needs">
+            <select name="shuttle">
+              <option value="">Transportation to Naivasha</option>
+              <option>I need a shuttle to Naivasha</option>
+              <option>I will get there on my own</option>
+              <option>I don't know yet</option>
+            </select>
           </div>
           <div class="rsvp-fields is-hidden" id="declineFields">
             <div class="rsvp-row">
-              <input type="text" name="declineName" placeholder="Name">
-              <input type="email" name="declineEmail" placeholder="Email address">
+              <input type="text" name="declineName" placeholder="Name(s)">
+
             </div>
             <input type="text" name="declineMessage" placeholder="Send a message (optional)">
           </div>
@@ -794,26 +819,26 @@
       </div>
     </section>
 
-    <section class="dark" id="about">
+    <section class="dark" id="love-birds">
       <div class="page">
         <h2>About</h2>
         <div class="about-cols">
           <div class="about-col">
             <p>We met on Bumble in September 2023. Jordan had just moved to New York a couple of months earlier, and Zisiga had been in and out of the city since 2019. Our first date was an Allah-Las show in Bushwick. A great night turned into a second date, and then a third.</p>
-            <figure class="about-photo">
-              <img src="your-photo-1.jpg" alt="Zisiga and Jordan in nyc">
-            </figure>
-            <p>Everything has felt easy when we’re together. We laugh a lot, challenge each other, and admire each other’s ideas and design sense. Six months in, we were looking for our first apartment, running around the city picking things up on Facebook Marketplace and slowly making a home. We love making things together - stools and lights in Kenya, painting the house, building a flower box. It turns out we’re happiest when we’re building something side by side.</p>
+            <p>Everything has felt easy when we're together. We laugh a lot, challenge each other, and admire each other's ideas and design sense. </p>
+            <p>Six months in, we were looking for our first apartment, running around the city picking things up on Facebook Marketplace and slowly making a home. It turns out we're happiest when we're building something side by side.</p>
+            <p>Zisiga grew up in Nairobi, and Jordan has fallen in love with Kenya — the landscape, the humor, the warmth, and the nyama choma.</p>
           </div>
           <div class="about-col">
-            <p>
-             Zisiga grew up in Nairobi, and Jordan has fallen in love with Kenya — the landscape, the humor, the warmth, and the nyama choma. </p>
-            <figure class="about-photo">
-              <img src="your-photo-2.jpg" alt="Sanctuary Farm, Naivasha">
-            </figure>
-            <p>We can’t wait to host you at Sanctuary Farm in Naivasha. It’s calm and open, surrounded by nature, and a place where you can sit outside, eat well, and watch wild animals wander by. We’d love for you to be there with us.</p>
+            <div class="about-photo">
+              <img src="photos/us.jpg" alt="Zisiga and Jordan">
+            </div>
+
+            <p>We can't wait to host you at Sanctuary Farm in Naivasha. It's calm and open, surrounded by nature, and a place where you can sit outside, eat well, and watch wild animals wander by. We'd love for you to be there with us.</p>
           </div>
         </div>
+        <div class="gap"></div>
+
       </div>
     </section>
 
@@ -829,13 +854,12 @@
         <h2>Getting There</h2>
         <p>Fly into Nairobi's Jomo Kenyatta International Airport (NBO). We recommend arriving at least on Thursday with a buffer night for a well rested start.</p>
         <div class="gap-sm"></div>
-        <p>The easiest way to get around is Uber. It's easily available, reliable, and very affordable. You'll see Uber Chapchap which are smaller budget Ubers perfect for short trips. And if you're feeling adventurous, Matatus are iconic and could in theory get you where you want. But just use Uber.</p>
+        <p>Getting around Nairobi is easiest by Uber. It's reliable, widely available, and affordable. You'll see Uber Chapchap for shorter trips. If you're feeling adventurous, Matatus are fun, but Uber is the simplest option.</p>
         <hr>
-        <p>
-          <strong>Shuttles</strong>
-        </p>
-        <p class="dim">We're working on arranging group shuttles between Nairobi and Naivasha for the main arrival and departure days. Details will be shared as we get closer.</p>
-        <p class="dimmer">Nairobi  ▸  Naivasha — To be confirmed<br>Naivasha  ▸  Nairobi — To be confirmed</p>
+        <p style="font-weight: 800;">Shuttles</p>
+        <p>Shuttles will be available for everyone attending — not just out-of-town visitors. Getting to Naivasha, we've gotchu.</p>
+        <p>We're working on arranging group shuttles between Nairobi and Naivasha for the main arrival and departure days. Details will be shared as we get closer.</p>
+        <p class="dim">Nairobi  ▸  Naivasha — To be confirmed<br>Naivasha  ▸  Nairobi — To be confirmed</p>
         <div class="gap-sm"></div>
 
       </div>
@@ -845,13 +869,17 @@
       <div class="page">
         <h2 style="text-align: center;">Where to Stay</h2>
         <div class="about-cols">
-          <div>
-            <p>We're putting together a list of places to stay in and around Naivasha — from options on Sanctuary Farm to nearby hotels and Airbnbs. Details coming soon.</p>
-
+          <div class="about-col">
+            <div>
+              <p>We're putting together a list of places to stay in and around Naivasha, including options on Sanctuary Farm and nearby hotels and Airbnbs. Details coming soon.</p>
+            </div>
           </div>
-          <figure class="about-photo">
-            <img src="https://cdn.audleytravel.com/1050/750/79/489552-boat-trip-on-lake-naivasha.webp" alt="Naivasha area">
-          </figure>
+
+          <div class="about-col">
+            <div class="about-photo">
+              <img src="https://www.kenya-experience.com/wp-content/uploads/2024/12/crescent-island-walk-zebras.jpg" alt="naivasha wildlife">
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -865,11 +893,11 @@
             <div class="accordion-body">
               <dl class="faq">
                 <dt>Do I need a visa?</dt>
-                <dd>Most likely, yes. Kenya's e-visa costs $30 and takes about 10 minutes to apply. Do it at least a week before you fly.</dd>
+                <dd>If you have to ask, then you need a visa. Kenya's e-visa costs $30 and takes about 10 minutes to complete. Apply at least two weeks before travel. <a href="https://www.etakenya.go.ke" target="_blank">Apply for a Kenya e-visa</a>.</dd>
                 <dt>When should I arrive?</dt>
-                <dd>We recommend arriving Thursday, November 26 and staying in Nairobi that night. You'll be rested and ready for the shuttle to Naivasha on Friday.</dd>
+                <dd>We recommend arriving Thursday, November 26 at the latest, and staying in Nairobi that night. We'll have a few shuttle pick up points around Nairobi and it might be good to stay near one of them.</dd>
                 <dt>What should I pack?</dt>
-                <dd>November is Kenya's "short rains" season — warm days (70–80°F) with possible afternoon showers. Bring layers, a light rain jacket, and comfortable shoes. The ceremony is semi-formal.
+                <dd>November is Kenya's short rains season, with warm days and occasional afternoon showers. Bring light layers, a rain jacket, and comfortable shoes. The ceremony is semi-formal, plan to shine!
                   <p class="dim">
                     <a href="#" class="packing-trigger">here's a packing list</a>
                   </p>
@@ -878,17 +906,17 @@
             </div>
           </details>
           <details>
-            <summary>While You're There</summary>
+            <summary>While you're Here</summary>
             <div class="accordion-body">
               <dl class="faq">
-                <dt>What's included?</dt>
-                <dd>All wedding events, meals during the weekend, and group transportation we arrange. You book your own flights, accommodation, and activities outside wedding events.</dd>
-                <dt>What if my flight is delayed?</dt>
-                <dd>Join our WhatsApp group before you travel. If you miss a shuttle, contact us — we'll help arrange alternatives.</dd>
-                <dt>Mosquitos & malaria?</dt>
-                <dd>Not too bad this time of year. If malaria medication is recommended for your situation, talk to your doctor before the trip.</dd>
-                <dt>Money, power & phone</dt>
-                <dd>Credit cards work in Nairobi. Some Kenyan Shillings in cash is handy. Kenya uses Type G (UK-style) plugs. Most international phone plans work, or you can grab a local SIM easily.</dd>
+                <dt>Exploring Nairobi</dt>
+                <!-- FIX 7: Changed from packing-trigger to map-trigger so this link navigates properly -->
+                <dd>  There is so much to do, see, and eat in Nairobi. We recommend spending at least a few days in the city if you can. We've put together a map of some of our favorite spots around the city.<br>
+                  <a href="https://www.google.com/maps/@/data=!3m1!4b1!4m2!11m1!2sZzfmeTI5RGqd3g_nUg5PHQ?g_ep=CAISEjI2LjA2LjIuODY0NDM1MTkzMBgAILffASpbLDk0Mjk3Njk5LDk0Mjg0NDYzLDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDk0MjkyMDc0LDk0Mjg2ODY5LDEwMDc5NjU4OUICR0I%3D" target="_blank" class="map-trigger">here's the map</a>.</dd>
+                <dt>Money, power &amp; phone</dt>
+                <dd>Credit cards work in Nairobi, but having some Kenyan Shillings in cash is useful. Kenya uses Type G (UK-style) plugs. Most international phone plans work, or you can easily buy a local SIM at the airport.</dd>
+                <dt>Mosquitos &amp; malaria?</dt>
+                <dd>Not too bad this time of year. If malaria medication is recommended for your situation, talk to your doctor before traveling.</dd>
               </dl>
             </div>
           </details>
@@ -897,7 +925,7 @@
             <div class="accordion-body">
               <dl class="faq">
                 <dt>Can I add a safari or beach trip?</dt>
-                <dd>Absolutely — many guests are planning extra days. We can share recommendations for the Masai Mara, Amboseli, or the coast.</dd>
+                <dd>Absolutely. Many guests are planning to add a few days before or after the wedding. We can share recommendations for the Masai Mara, Amboseli, or the coast.</dd>
               </dl>
             </div>
           </details>
@@ -907,6 +935,9 @@
 
     <footer>
       <div class="page">We can't wait to see you.</div>
+      <div style="text-align:center; font-size: 1rem; color: rgba(0,0,0);">
+      Last updated Feb 18th
+    </div>
     </footer>
 
     <div class="modal-overlay" id="modal">
@@ -970,7 +1001,7 @@
           map: true
         }, {
           date: 'Sunday, November 29, 2026',
-          body: 'We’ll close the weekend with a farewell brunch before departures. Return shuttle timing and details will be shared closer to the date.'
+          body: 'We will close the weekend with a farewell brunch before departures. Return shuttle timing and details will be shared closer to the date.'
         }
       ];
 
@@ -984,17 +1015,17 @@
       $('#scheduleList').innerHTML = SCHEDULE
         .map(
           s => `
-        <div class="day">
-          <p>${s.date}</p>
-          <p>${s.body}</p>
-          ${s.map
+      <div class="day">
+        <p>${s.date}</p>
+        <p>${s.body}</p>
+        ${s.map
           ? `
-            <div class="map"><iframe src="${MAP_EMBED}" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
-            <p class="dimmer">Sanctuary Farm, Naivasha · 90 km from Nairobi · ~1.5 hours — <a href="${MAP_LINK}" target="_blank">Open in Google Maps</a></p>
-          `
+          <div class="map"><iframe src="${MAP_EMBED}" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+          <p class="dimmer">Sanctuary Farm, Naivasha · 90 km from Nairobi · ~1.5 hours — <a href="${MAP_LINK}" target="_blank">Open in Google Maps</a></p>
+        `
           : ''}
-        </div>
-      `)
+      </div>
+    `)
         .join('');
 
       /* ---- Nav ---- */
@@ -1002,12 +1033,18 @@
       const navLinks = $$('a', nav);
       const sectionEls = navLinks.map(a => $(`#${a.dataset.to}`));
 
+      /* FIX 2 & 3: Replace ScrollTrigger-based nav toggle with a simple scroll-based approach.
+         Uses onEnter/onLeaveBack instead of onUpdate to avoid flickering at the threshold.
+         Also uses 'max' for end to handle any page length. */
       ScrollTrigger.create({
         start: 100,
-        end: 99999,
-        onUpdate: self => nav
+        end: 'max',
+        onEnter: () => nav
           .classList
-          .toggle('is-hidden', !self.isActive)
+          .remove('is-hidden'),
+        onLeaveBack: () => nav
+          .classList
+          .add('is-hidden')
       });
 
       navLinks.forEach(a => {
@@ -1080,7 +1117,7 @@
       function showModal(accepted) {
         $('#modalIcon').textContent = accepted
           ? '💌'
-          : '💔';
+          : '💚';
         $('#modalTitle').textContent = accepted
           ? "We can't wait to see you"
           : "We'll miss you";
@@ -1108,11 +1145,6 @@
           hideModal();
         }
       );
-      addEventListener('keydown', e => {
-        if (e.key === 'Escape') 
-          hideModal();
-        }
-      );
 
       form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -1132,10 +1164,7 @@
             attending: true,
             name: val('name'),
             email: val('email'),
-            departureCity: val('departureCity'),
             whatsapp: val('whatsapp'),
-            flight: val('flight'),
-            arrivalTime: val('arrivalTime'),
             shuttle: val('shuttle'),
             accommodation: val('accommodation'),
             dietary: val('dietary')
@@ -1144,10 +1173,7 @@
             attending: false,
             name: val('declineName'),
             email: val('declineEmail'),
-            departureCity: '',
             whatsapp: '',
-            flight: '',
-            arrivalTime: '',
             shuttle: '',
             accommodation: '',
             dietary: val('declineMessage')
@@ -1197,28 +1223,29 @@
         });
       });
 
-      $('#packingClose').addEventListener('click', () => {
+      function closePackingOverlay() {
         packingOverlay
           .classList
           .remove('is-visible');
         document.body.style.overflow = '';
-      });
+      }
+
+      $('#packingClose').addEventListener('click', closePackingOverlay);
 
       packingOverlay.addEventListener('click', e => {
-        if (e.target === packingOverlay) {
-          packingOverlay
-            .classList
-            .remove('is-visible');
-          document.body.style.overflow = '';
+        if (e.target === packingOverlay) 
+          closePackingOverlay();
         }
-      });
+      );
 
+      /* FIX 6: Single unified Escape handler for all overlays */
       addEventListener('keydown', e => {
-        if (e.key === 'Escape' && packingOverlay.classList.contains('is-visible')) {
-          packingOverlay
-            .classList
-            .remove('is-visible');
-          document.body.style.overflow = '';
+        if (e.key === 'Escape') {
+          if (packingOverlay.classList.contains('is-visible')) {
+            closePackingOverlay();
+          } else if (modal.classList.contains('is-visible')) {
+            hideModal();
+          }
         }
       });
     </script>
