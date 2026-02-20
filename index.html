@@ -23,16 +23,53 @@
         font-display: swap;
       }
 
-      :root {
-        --primary: #000;
-        --secondary: rgba(0,0,0,0.7);
-        --tertiary: rgba(0,0,0,0.5);
-        --rule: rgba(0,0,0,0.1);
-        --surface: #e8e8e8;
-        --surface-alt: #f5f5f5;
-        --accent: #c6f135;
+      @font-face {
+        font-family: 'Signifier';
+        src: url("https://skuma.wiki/fonts/signifier-bold.woff2") format('woff2');
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
       }
 
+      @font-face {
+        font-family: 'Signifier';
+        src: url("https://skuma.wiki/fonts/signifier-black.woff2") format('woff2');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Metric';
+        src: url("https://skuma.wiki/fonts/metric-regular.woff2") format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --primary: #2A0A12;
+
+        /* Subtle text hierarchy */
+        --secondary: rgba(208, 183, 188, 0.65);
+        --tertiary: rgba(208, 183, 188, 0.42);
+        --rule: rgba(208, 183, 188, 0.12);
+
+        --surface: #B78FA7;
+
+        --surface-alt: #EAD3D8;
+
+        --accent: #C86A82;
+        --accent-cool: #B78FA7;
+
+        --accent-warm: #A94C63;
+
+        --ink: #2A0A12;
+
+        --deep-green: #4A2A33;
+
+        --mist: #E9D6D9;
+
+      }
       * {
         margin: 0;
         padding: 0;
@@ -42,10 +79,10 @@
       body {
         font-family: 'Signifier', Georgia, serif;
         font-size: 1.5rem;
-        line-height: 1.3;
+        line-height: 1.4;
         font-weight: 400;
-        color: var(--primary);
-        background: var(--surface);
+        color: var(--secondary);
+        background: var(--primary);
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
       }
@@ -64,18 +101,61 @@
         align-content: center;
       }
 
+      .faq {
+        font-family: 'Signifier', Georgia, serif;
+        max-width: 40vw;
+        padding: 2rem 0;
+      }
+
       .hero {
         text-align: center;
-        background: #000;
-        color: #e8e8e8;
+        background: var (--accent);
+        color: var(--primary);
         margin: 0;
         padding: 1rem 0;
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        color: #fff;
       }
 
       @media screen and (min-width: 60em) {
         .hero {
           padding: 2rem 0;
         }
+      }
+
+      .hero-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .hero::after {
+        background: radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(27,31,27,0.35) 60%, rgba(27,31,27,0.2) 100%);
+      }
+
+      .hero .page {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-footer {
+        position: absolute;
+        bottom: 2rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 2rem;
+        line-height: 1.15;
+        color: rgba(255, 255, 255);
+        z-index: 1;
       }
 
       .gap {
@@ -233,23 +313,23 @@
       }
 
       section.dark {
-        background: #000;
-        color: #e8e8e8;
+        background: var(--ink);
+        color: var(--surface);
         margin: 0;
         padding: 4rem 0;
       }
 
       section.dark hr {
-        border-color: rgba(255,255,255,0.12);
+        border-color: var(--rule);
       }
       section.dark a {
-        color: #e8e8e8;
+        color: var(--surface);
       }
       section.dark .dim {
-        color: rgba(255,255,255,0.5);
+        color: var(--surface);
       }
       section.dark .dimmer {
-        color: rgba(255,255,255,0.3);
+        color: var(--surface-alt);
       }
 
       section.muted {
@@ -259,29 +339,49 @@
 
       /* ---- Typography ---- */
       h1 {
-        font-size: clamp(4rem, 12vw, 8rem);
-        font-weight: 400;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-        margin-bottom: 1rem;
+        text-transform: uppercase;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 2rem;
+        font-weight: 900;
+        line-height: 1.15;
+        letter-spacing: 0.02em;
+        margin: 0 auto;
+        text-shadow: 0 6px 30px rgba(0,0,0,0.35);
       }
 
       h2 {
-        font-size: clamp(1.5rem, 12vw, 4rem);
-        font-weight: 800;
+        text-transform: uppercase;
+        max-width: 10rem;
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 1.5rem;
+        font-weight: 900;
         line-height: 1.15;
         margin-bottom: 2rem;
+        margin-top: 4rem;
       }
 
       .dek {
+        font-family: 'Signifier', Georgia, serif;
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1.15;
+        margin: 0 auto;
+        text-wrap: balance;
+        text-shadow: 0 6px 30px rgba(0,0,0,0.35);
+      }
+
+      .rsvp {
+        font-family: 'Signifier', Georgia, serif;
         font-size: 2rem;
         font-weight: 800;
         line-height: 1.15;
         margin: 0 auto;
         text-wrap: balance;
+        margin-bottom: 0.5rem;
       }
 
       p {
+        font-family: 'Signifier', Georgia, serif;
         margin-bottom: 0.5rem;
       }
       p:last-child {
@@ -298,7 +398,10 @@
       .about-cols {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 4rem;
+        gap: 4.5rem;
+      }
+      .about-col {
+        max-width: 52ch;
       }
       .about-col p {
         margin-bottom: 1rem;
@@ -384,7 +487,7 @@
       .transcript-media {
         position: relative;
         border: 2px solid var(--accent);
-        background: rgba(255,255,255,0.04);
+        background: var(--primary);
 
       }
       .transcript-media img {
@@ -417,7 +520,7 @@
         align-items: center;
         justify-content: center;
         padding: 1.25rem;
-        background: rgba(0,0,0,0.65);
+        background: var(--tertiary);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         opacity: 0;
@@ -432,7 +535,7 @@
         position: relative;
         width: 100%;
         max-width: 30rem;
-        background: #000;
+        background: var(--primary);
         border: 1px solid rgba(255,255,255,0.12);
         overflow: hidden;
         transform: translateY(10px) scale(0.98);
@@ -488,9 +591,10 @@
       .day p:first-child {
         margin-bottom: 0.75rem;
         text-decoration: underline;
+        font-weight: 800;
       }
       .day p:nth-child(2) {
-        color: var(--secondary);
+        color: var(--surface);
       }
 
       .map {
@@ -577,7 +681,7 @@
         line-height: 1;
       }
       .packing-close:hover {
-        color: #000;
+        color: var(--primary);
       }
       .packing-cols {
         display: grid;
@@ -619,8 +723,9 @@
         justify-content: space-between;
         padding: 1.5rem 0;
         font-family: 'Signifier', Georgia, serif;
-        font-size: 2rem;
-        font-weight: 800;
+        font-size: 4rem;
+        line-height: 1;
+        font-weight: 400;
         cursor: pointer;
         list-style: none;
         user-select: none;
@@ -741,14 +846,14 @@
         background-position: right center;
       }
       select option {
-        background: #000;
-        color: #e8e8e8;
+        background: var(--primary);
+        color: var(--surface);
       }
       .rsvp-submit {
         margin-top: 2rem;
         padding: 0.75rem 2rem;
         background: var(--accent);
-        color: #000;
+        color: var(--primary);
         border: none;
         font-family: 'Signifier', Georgia, serif;
         font-size: 1.5rem;
@@ -756,7 +861,7 @@
         transition: 0.3s;
       }
       .rsvp-submit:hover {
-        background: #b8e230;
+        background: var(--mist);
       }
       @media (max-width: 30em) {
         .rsvp-choices {
@@ -787,14 +892,14 @@
         visibility: visible;
       }
       .modal-overlay dialog {
-        background: #e8e8e8;
+        background: var(--surface);
         max-width: 24rem;
         width: 100%;
         padding: 3rem;
         border: none;
         text-align: center;
         margin: 0;
-        color: #000;
+        color: var(--primary);
         transform: translateY(16px) scale(0.98);
         transition: transform 0.4s;
       }
@@ -822,7 +927,7 @@
         background: #000;
         color: #e8e8e8;
         border: none;
-        font: inherit;
+        font-family: 'Signifier', Georgia, serif;
         font-size: 1rem;
         cursor: pointer;
         transition: 0.3s;
@@ -838,7 +943,7 @@
         font-weight: 800;
         color: var(--primary);
         text-align: center;
-        background: var(--accent);
+        background: linear-gradient(to bottom, #E9DED0, var(--accent));
       }
 
       /* ---- Animations ---- */
@@ -880,55 +985,17 @@
     </nav>
 
     <section class="hero" id="hero">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto">
+        <source src="photos/hero-video.mp4" type="video/mp4">
+      </video>
       <div class="page">
-        <h1>Zisiga &<br>Jordan</h1>
-        <div class="dek">Invite you to celebrate our wedding with us.</div>
-        <img src="photos/wedding-collage.png" alt="Zisiga and Jordan" style="width:100%;">
-        <div class="dek">November 27–29, 2026<br>Sanctuary Farm · Naivasha · Kenya</div>
+        <h1>Zisiga & Jordan</h1>
+        <div class="dek">We invite you to celebrate<br>our wedding with us.</div>
       </div>
-    </section>
-
-    <section class="dark">
-      <div class="page" style="text-align: center;">
-        <h2>RSVP</h2>
-        <p class="dim">Please get back to us by May 15, 2026.</p>
-        <form id="rsvpForm">
-          <p class="dim">Will you join us?</p>
-          <div class="gap"></div>
-          <div class="rsvp-choices">
-            <button type="button" id="btnYes">Joyfully Accept</button>
-            <button type="button" id="btnNo">Regretfully Decline</button>
-          </div>
-          <div class="rsvp-fields is-hidden" id="acceptFields">
-            <div class="rsvp-row">
-              <input type="text" name="name" placeholder="Name(s)">
-              <input type="email" name="email" placeholder="Email address">
-            </div>
-            <div class="rsvp-row">
-              <input type="text" name="phone" placeholder="Phone number">
-              <input type="text" name="dietary" placeholder="Dietary restrictions or accessibility needs">
-            </div>
-            <select name="accommodation">
-              <option value="">Accommodation preference</option>
-              <option>I’ll arrange my own</option>
-              <option>Need help deciding</option>
-            </select>
-            <select name="shuttle">
-              <option value="">Transportation to Naivasha</option>
-              <option>I need a shuttle to Naivasha</option>
-              <option>I will get there on my own</option>
-              <option>I don’t know yet</option>
-            </select>
-          </div>
-          <div class="rsvp-fields is-hidden" id="declineFields">
-            <div class="rsvp-row">
-              <input type="text" name="declineName" placeholder="Name(s)">
-            </div>
-            <input type="text" name="declineMessage" placeholder="Send a message (optional)">
-          </div>
-          <button type="submit" class="rsvp-submit" id="submitBtn">Submit RSVP</button>
-        </form>
-      </div>
+      <div class="hero-footer">
+    November 27–29, 2026
+        <br> Naivasha · Kenya
+  </div>
     </section>
 
     <section class="dark" id="love-birds">
@@ -1072,8 +1139,49 @@
         </div>
       </div>
     </section>
-
-    <section id="schedule">
+    <section class="dark">
+      <div class="page" style="text-align: center;">
+        <p class="rsvp">RSVP</p>
+        <p class="dim">Please get back to us by May 15, 2026.</p>
+        <form id="rsvpForm">
+          <p class="dim">Will you join us?</p>
+          <div class="gap"></div>
+          <div class="rsvp-choices">
+            <button type="button" id="btnYes">Joyfully Accept</button>
+            <button type="button" id="btnNo">Regretfully Decline</button>
+          </div>
+          <div class="rsvp-fields is-hidden" id="acceptFields">
+            <div class="rsvp-row">
+              <input type="text" name="name" placeholder="Name(s)">
+              <input type="email" name="email" placeholder="Email address">
+            </div>
+            <div class="rsvp-row">
+              <input type="text" name="phone" placeholder="Phone number">
+              <input type="text" name="dietary" placeholder="Dietary restrictions or accessibility needs">
+            </div>
+            <select name="accommodation">
+              <option value="">Accommodation preference</option>
+              <option>I’ll arrange my own</option>
+              <option>Need help deciding</option>
+            </select>
+            <select name="shuttle">
+              <option value="">Transportation to Naivasha</option>
+              <option>I need a shuttle to Naivasha</option>
+              <option>I will get there on my own</option>
+              <option>I don’t know yet</option>
+            </select>
+          </div>
+          <div class="rsvp-fields is-hidden" id="declineFields">
+            <div class="rsvp-row">
+              <input type="text" name="declineName" placeholder="Name(s)">
+            </div>
+            <input type="text" name="declineMessage" placeholder="Send a message (optional)">
+          </div>
+          <button type="submit" class="rsvp-submit" id="submitBtn">Submit RSVP</button>
+        </form>
+      </div>
+    </section>
+    <section class="dark" id="schedule">
       <div class="page">
         <h2>The Wedding Weekend</h2>
         <div id="scheduleList"></div>
@@ -1082,7 +1190,7 @@
 
     <section class="dark" id="travel">
       <div class="page">
-        <h2>Getting There</h2>
+        <h2>Getting<br>There</h2>
         <p>Fly into Nairobi’s Jomo Kenyatta International Airport (NBO). We recommend arriving at least on Thursday with a buffer night for a well rested start.</p>
         <div class="gap-sm"></div>
         <p>Getting around Nairobi is easiest by Uber. It’s reliable, widely available, and affordable. You’ll see Uber Chapchap for shorter trips. If you’re feeling adventurous, Matatus are fun, but Uber is the simplest option.</p>
@@ -1097,7 +1205,7 @@
 
     <section class="dark" id="stay">
       <div class="page">
-        <h2 style="text-align: center;">Where to Stay</h2>
+        <h2>Where<br>to Stay</h2>
         <div class="about-cols">
           <div class="about-col">
             <div>
@@ -1113,9 +1221,9 @@
       </div>
     </section>
 
-    <section class="muted" id="faq">
+    <section class="dark" id="faq">
       <div class="page">
-        <h2>Good to Know</h2>
+        <h2>Good<br>to Know</h2>
         <div class="accordion">
           <details>
             <summary>Before You Go</summary>
@@ -1160,7 +1268,13 @@
     </section>
 
     <footer>
-      <div class="page">We can’t wait to see you.</div>
+      <div class="page">
+        <img src="photos/wedding-collage.png"
+     alt="Zisiga and Jordan"
+     style="width:40%; display:block; margin:0 auto;">
+        <p>We can’t wait to see you.</p>
+      </div>
+
       <div style="text-align:center; font-size: 1rem; color: rgba(0,0,0);">
         Last updated Feb 18th
       </div>
