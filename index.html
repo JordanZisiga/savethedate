@@ -103,7 +103,7 @@
 
       .faq {
         font-family: 'Signifier', Georgia, serif;
-    
+        max-width: 40vw;
         padding: 2rem 0;
       }
 
@@ -210,7 +210,7 @@
         font-family: 'Signifier', Georgia, serif;
         font-size: 1.5rem;
         white-space: nowrap;
-        color: var(--tertiary);
+        color: var(--primary);
         text-decoration: none;
         transition: color 0.3s;
         cursor: pointer;
@@ -723,9 +723,11 @@
         justify-content: space-between;
         padding: 1.5rem 0;
         font-family: 'Signifier', Georgia, serif;
-        font-size: 3rem;
-        line-height: 1;
-        font-weight: 400;
+        font-size: 1.5rem;
+        font-weight: 900;
+        line-height: 1.15;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
         cursor: pointer;
         list-style: none;
         user-select: none;
@@ -1183,6 +1185,8 @@
     </section>
     <section class="dark" id="schedule">
       <div class="page">
+        <div style="border-top: 2px solid var(--secondary);
+        border-bottom: 2px solid var(--tertiary);"></div>
         <h2>The Wedding Weekend</h2>
         <div id="scheduleList"></div>
       </div>
@@ -1223,6 +1227,8 @@
 
     <section class="dark" id="faq">
       <div class="page">
+        <div style="border-top: 2px solid var(--secondary);
+        border-bottom: 2px solid var(--tertiary);"></div>
         <h2>Good<br>to Know</h2>
         <div class="accordion">
           <details>
@@ -1276,7 +1282,7 @@
       </div>
 
       <div style="text-align:center; font-size: 1rem; color: rgba(0,0,0);">
-        Last updated Feb 18th
+        Last updated Feb 20th
       </div>
     </footer>
 
