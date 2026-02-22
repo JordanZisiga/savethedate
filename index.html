@@ -27,17 +27,18 @@
     rel="preload"
     as="font"
     href="https://skuma.wiki/fonts/signifier-regular.woff2"
+    type="font/woff2"
     crossorigin
 />
   <link
     rel="preload"
     as="font"
     href="https://skuma.wiki/fonts/metric-regular.woff2"
+    type="font/woff2"
     crossorigin
 />
 
   <style>
-
     @font-face {
       font-family: 'Signifier';
       src: url("https://skuma.wiki/fonts/signifier-regular.woff2") format('woff2');
@@ -61,6 +62,7 @@
       font-style: normal;
       font-display: swap;
     }
+
     @font-face {
       font-family: 'Metric';
       src: url("https://skuma.wiki/fonts/metric-regular.woff2") format('woff2');
@@ -70,13 +72,11 @@
     }
 
     :root {
-      /* — Text hierarchy (for light surfaces) — */
       --primary: #2A3830;
       --secondary: rgba(42,56,48,0.50);
       --tertiary: rgba(42,56,48,0.30);
       --rule: rgba(42,56,48,0.08);
 
-      /* — Surfaces — */
       --surface: #E9EBE6;
       --surface-alt: #CDD3C8;
 
@@ -84,18 +84,36 @@
       --accent-cool: #8DE8B0;
       --accent-warm: #D0F5B0;
 
-      /* — Darks — */
       --ink: #091410;
       --mist: #142420;
 
-      /* — Dark section text — */
       --on-dark: #9AAC98;
       --on-dark-dim: rgba(154,172,152,0.55);
       --on-dark-dimmer: rgba(154,172,152,0.30);
       --on-dark-rule: rgba(154,172,152,0.08);
     }
 
-    * {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *,
+      *::after,
+      *::before {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    *,
+    *::after,
+    *::before {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -109,7 +127,13 @@
       color: var(--primary);
       background: var(--surface);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+    }
+
+    /* Lock body scroll when modals are open */
+    body.modal-open {
+      overflow: hidden;
     }
 
     ::selection {
@@ -136,13 +160,14 @@
       text-align: center;
       margin: 0;
       padding: 1rem 0;
-      min-height: 100vh;
+      min-height: 100svh;
+      /* use svh for mobile address bar */
       position: relative;
       overflow: hidden;
       color: #fff;
     }
 
-    @media screen and (min-width: 60em) {
+    @media (min-width: 60em) {
       .hero {
         padding: 2rem 0;
       }
@@ -154,6 +179,8 @@
       left: 50%;
       min-width: 100%;
       min-height: 100%;
+      width: auto;
+      height: auto;
       transform: translate(-50%, -50%);
       object-fit: cover;
       z-index: 0;
@@ -166,13 +193,7 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-
       background: linear-gradient(to bottom, rgba(200,232,104,0.35) 0%, rgba(200,232,104,0.18) 20%, rgba(200,232,104,0.06) 40%, rgba(9,20,16,0.45) 75%, rgba(9,20,16,0.70) 100%);
-    }
-
-    .hero .page {
-      position: relative;
-      z-index: 1;
     }
 
     .dek,
@@ -192,7 +213,6 @@
       font-size: 2rem;
       line-height: 1.15;
       color: rgba(255,255,255,0.9);
-      z-index: 2;
     }
 
     .gap {
@@ -235,7 +255,7 @@
       transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform;
     }
-    .nav.is-hidden {
+    .nav[aria-hidden="true"] {
       transform: translateY(-100%);
     }
 
@@ -266,7 +286,7 @@
       opacity: 1;
     }
 
-    .nav a.is-active {
+    .nav a[aria-current] {
       color: var(--primary);
       flex: 1;
     }
@@ -281,13 +301,13 @@
       background: var(--rule);
       transition: background 0.3s;
     }
-    .nav a.is-active::before {
+    .nav a[aria-current]::before {
       background: var(--primary);
     }
     .nav a:hover::before {
       background: var(--tertiary);
     }
-    .nav a.is-active:hover::before {
+    .nav a[aria-current]:hover::before {
       background: var(--primary);
     }
 
@@ -295,23 +315,6 @@
       .nav {
         height: 2.5rem;
         padding: 0 1rem;
-      }
-      .nav a {
-        padding: 0 0.6rem;
-      }
-    }
-    @media (max-width: 30em) {
-      .nav {
-        padding: 0 0.75rem;
-      }
-      .nav a {
-        padding: 0 0.4rem;
-      }
-    }
-
-    /* --- Mobile nav: horizontal scroll --- */
-    @media (max-width: 40em) {
-      .nav {
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
@@ -327,9 +330,17 @@
         font-size: 1.1rem;
         padding: 0 0.75rem;
       }
-
-      .nav a.is-active {
+      .nav a[aria-current] {
         flex: 0 0 auto;
+      }
+    }
+
+    @media (max-width: 30em) {
+      .nav {
+        padding: 0 0.75rem;
+      }
+      .nav a {
+        padding: 0 0.4rem;
       }
     }
 
@@ -341,7 +352,6 @@
       border-top: 1px solid var(--rule);
     }
 
-    /* Remove borders between dark/light/muted transitions */
     section + section.dark,
     section + section.muted,
     section.dark + section,
@@ -359,7 +369,6 @@
       margin: 0;
       padding: 4rem 0;
     }
-
     section.dark hr {
       border-color: var(--on-dark-rule);
     }
@@ -379,7 +388,6 @@
       color: var(--primary);
       padding: 4rem 0;
     }
-
     section.light hr {
       border-color: var(--rule);
     }
@@ -459,6 +467,7 @@
     p:last-child {
       margin-bottom: 0;
     }
+
     .dim {
       color: var(--secondary);
     }
@@ -488,6 +497,7 @@
     }
     .about-photo img {
       width: 100%;
+      height: auto;
       display: block;
       filter: grayscale(0.3);
       transition: filter 0.5s;
@@ -522,35 +532,32 @@
       margin: 2rem 0;
     }
 
-    /* hide transcript image panel initially */
     .transcript-media {
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.35s ease, transform 0.35s ease;
       pointer-events: none;
     }
-
-    /* visible state */
     .transcript-media.is-visible {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
     }
 
-    /* === Highlight styling (green) === */
+    /* Highlight styling */
     .hl {
       color: var(--accent);
       border: 2px solid var(--accent);
       padding: 0 0.2rem;
       border-radius: 0.15rem;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 0.2s;
       user-select: none;
     }
     .hl:hover {
       opacity: 0.75;
     }
-    .hl.is-active {
+    .hl[aria-selected="true"] {
       outline: 2px solid rgba(255,255,255,0.25);
     }
 
@@ -562,6 +569,7 @@
     }
     .transcript-media img {
       width: 100%;
+      height: auto;
       display: block;
       object-fit: cover;
       aspect-ratio: 4 / 3;
@@ -581,7 +589,7 @@
       }
     }
 
-    /* === Mobile transcript image overlay (auto hides) === */
+    /* Mobile transcript image overlay */
     .transcript-overlay {
       position: fixed;
       inset: 0;
@@ -616,22 +624,11 @@
     }
     .transcript-overlay-card img {
       width: 100%;
+      height: auto;
       display: block;
       aspect-ratio: 4 / 3;
       object-fit: cover;
       filter: grayscale(0.1);
-    }
-    .transcript-overlay-caption {
-      font-size: 1.125rem;
-      line-height: 1.25;
-      padding: 0.75rem 0.9rem;
-      color: var(--on-dark-dim);
-      border-top: 1px solid var(--on-dark-rule);
-    }
-    .transcript-overlay-meta {
-      font-size: 1rem;
-      color: var(--on-dark-dimmer);
-      padding: 0.6rem 0.9rem 0.9rem;
     }
     .transcript-overlay-close {
       position: absolute;
@@ -640,11 +637,13 @@
       width: 2.5rem;
       height: 2.5rem;
       border: none;
+      border-radius: 0;
       background: rgba(255,255,255,0.08);
       color: rgba(255,255,255,0.9);
       font-size: 1.75rem;
       line-height: 1;
       cursor: pointer;
+      transition: background 0.2s;
     }
     .transcript-overlay-close:hover {
       background: rgba(255,255,255,0.16);
@@ -676,14 +675,13 @@
       height: 100%;
       border: 0;
       filter: grayscale(1) contrast(1.05);
-      will-change: filter;
       transition: filter 0.5s;
     }
     .map:hover iframe {
       filter: grayscale(0.5) contrast(1);
     }
 
-    /* ---- Packing List / Map Triggers ---- */
+    /* ---- Packing / Map Triggers ---- */
     .map-trigger,
     .packing-trigger {
       background-color: var(--accent);
@@ -697,7 +695,6 @@
       opacity: 0.7;
     }
 
-    /* Light section triggers need different treatment */
     section.light .map-trigger,
     section.light .packing-trigger {
       background-color: var(--accent);
@@ -714,6 +711,7 @@
       padding: 1.5rem;
       background: rgba(15,26,15,0.6);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.4s, visibility 0.4s;
@@ -757,6 +755,7 @@
     .packing-close:hover {
       color: var(--ink);
     }
+
     .packing-cols {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -824,7 +823,8 @@
       margin-left: 2rem;
     }
     details[open] summary::after {
-      content: '-';
+      content: '−';
+      /* proper minus sign, not hyphen */
       font-size: 3rem;
       font-weight: 300;
     }
@@ -840,7 +840,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Dark section accordion overrides */
     section.dark .accordion details {
       border-color: var(--on-dark-rule);
     }
@@ -862,29 +861,30 @@
       padding: 0.875rem 1rem;
       background: transparent;
       border: 1px solid var(--on-dark-rule);
+      border-radius: 0;
       font-family: 'Signifier', Georgia, serif;
       font-size: 1.5rem;
       color: var(--on-dark);
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
     .rsvp-choices button:hover {
       border-color: var(--on-dark-dim);
     }
-    .rsvp-choices button.is-selected {
+    .rsvp-choices button[aria-pressed="true"] {
       background: var(--accent);
       border-color: var(--accent);
       color: var(--ink);
     }
     .rsvp-fields {
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 0.25rem;
       margin-top: 1.25rem;
-      animation: slideIn 0.4s;
     }
-    .rsvp-fields.is-hidden {
-      display: none;
+    .rsvp-fields.is-visible {
+      display: flex;
+      animation: slideIn 0.4s;
     }
     .rsvp-row {
       display: grid;
@@ -904,6 +904,7 @@
       color: var(--on-dark);
       outline: none;
       border-radius: 0;
+      transition: border-color 0.2s;
     }
     input:focus,
     select:focus {
@@ -930,13 +931,18 @@
       background: var(--accent);
       color: var(--ink);
       border: none;
+      border-radius: 0;
       font-family: 'Signifier', Georgia, serif;
       font-size: 1.5rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s;
     }
     .rsvp-submit:hover {
       background: var(--accent-warm);
+    }
+    .rsvp-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
     @media (max-width: 30em) {
       .rsvp-choices {
@@ -953,6 +959,7 @@
       inset: 0;
       background: rgba(15,26,15,0.6);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 10000;
       display: flex;
       align-items: center;
@@ -966,7 +973,7 @@
       opacity: 1;
       visibility: visible;
     }
-    .modal-overlay dialog {
+    .modal-overlay .modal-card {
       background: var(--surface);
       max-width: 24rem;
       width: 100%;
@@ -978,7 +985,7 @@
       transform: translateY(16px) scale(0.98);
       transition: transform 0.4s;
     }
-    .modal-overlay.is-visible dialog {
+    .modal-overlay.is-visible .modal-card {
       transform: translateY(0) scale(1);
     }
     .modal-overlay .icon {
@@ -1002,10 +1009,11 @@
       background: var(--ink);
       color: var(--on-dark);
       border: none;
+      border-radius: 0;
       font-family: 'Signifier', Georgia, serif;
       font-size: 1rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s;
     }
     .modal-overlay button:hover {
       background: var(--mist);
@@ -1026,6 +1034,10 @@
       from {
         opacity: 0;
         transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
     @keyframes shake {
@@ -1050,53 +1062,56 @@
 </head>
 
 <body>
-  <nav class="nav is-hidden" id="nav">
-    <a data-to="hero">The Invitation</a>
-    <a data-to="love-birds">The Love Birds</a>
-    <a data-to="schedule">The Weekend</a>
-    <a data-to="travel">Getting There</a>
-    <a data-to="stay">Where to Stay</a>
-    <a data-to="faq">Good to Know</a>
+  <!-- Navigation -->
+  <nav class="nav" id="nav" aria-hidden="true" aria-label="Page navigation">
+    <a href="#hero" data-to="hero">The Invitation</a>
+    <a href="#love-birds" data-to="love-birds">The Love Birds</a>
+    <a href="#schedule" data-to="schedule">The Weekend</a>
+    <a href="#travel" data-to="travel">Getting There</a>
+    <a href="#stay" data-to="stay">Where to Stay</a>
+    <a href="#faq" data-to="faq">Good to Know</a>
   </nav>
 
+  <!-- Hero -->
   <section class="hero" id="hero">
     <video
-  class="hero-video"
-  poster="photos/hero-fallback.jpg"
-  muted
-  loop
-  playsinline
-  autoplay
-  preload="metadata"
->
+      class="hero-video"
+      poster="photos/hero-fallback.jpg"
+      muted
+      loop
+      playsinline
+      autoplay
+      preload="metadata"
+    >
       <source src="photos/hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)"/>
-      <source src="photos/hero-desktop.mp4" type="video/mp4" media="(min-width: 769px)"/>
+      <source src="photos/hero-desktop.mp4" type="video/mp4"/>
     </video>
     <div class="page">
       <h1>Zisiga & Jordan</h1>
       <div class="dek">We invite you to celebrate<br>our wedding with us.</div>
     </div>
     <div class="hero-footer">
-    November 27–29, 2026
-        <br> Naivasha · Kenya
-  </div>
+      November 27–29, 2026
+      <br>Naivasha · Kenya
+    </div>
   </section>
 
+  <!-- About -->
   <section class="dark" id="love-birds">
     <div class="page">
       <h2>About</h2>
       <div class="about-cols">
         <div class="about-col">
           <p>We met on Bumble in September 2023. Jordan had just moved to New York a couple of months earlier, and Zisiga had been in and out of the city since 2019. Our first date was an Allah-Las show in Bushwick. A great night turned into a second date, and then a third.</p>
-          <p>Everything has felt easy when we're together. We laugh constantly, challenge each other, and love watching the other come up with ideas and bring them to life.</p>
-          <p>Six months in, we were looking for our first apartment, running around the city picking things up on Facebook Marketplace and slowly making a home. It turns out we're happiest when we're building something side by side.</p>
+          <p>Everything has felt easy when we’re together. We laugh constantly, challenge each other, and love watching the other come up with ideas and bring them to life.</p>
+          <p>Six months in, we were looking for our first apartment, running around the city picking things up on Facebook Marketplace and slowly making a home. It turns out we’re happiest when we’re building something side by side.</p>
           <p>Zisiga grew up in Nairobi, and Jordan has fallen in love with Kenya — the landscape, the humor, the warmth, and the nyama choma.</p>
         </div>
         <div class="about-col">
           <div class="about-photo">
-            <img src="photos/us.jpg" loading="lazy" alt="Zisiga and Jordan">
+            <img src="photos/us.jpg" loading="lazy" alt="Zisiga and Jordan" width="600" height="450">
           </div>
-          <p>We can’t wait to host you at Sanctuary Farm in Naivasha. It's calm and open, surrounded by nature, and a place where you can sit outside, eat well, and watch wild animals wander by. We'd love for you to be there with us.</p>
+          <p>We can’t wait to host you at Sanctuary Farm in Naivasha. It’s calm and open, surrounded by nature, and a place where you can sit outside, eat well, and watch wild animals wander by. We’d love for you to be there with us.</p>
         </div>
       </div>
 
@@ -1104,15 +1119,13 @@
 
       <div class="accordion">
         <div class="about-cols">
-
           <!-- transcript -->
           <div class="about-col">
             <details>
               <summary>A tad bit more</summary>
-
               <div class="accordion-body transcript">
                 <p class="transcript-direction">
-                  <em> We sat down to have a random conversation and recorded it. Here’s a lightly edited transcript of that conversation, which includes a few of the qs we asked each other. </em>
+                  <em>We sat down to have a random conversation and recorded it. Here’s a lightly edited transcript of that conversation, which includes a few of the qs we asked each other.</em>
                 </p>
 
                 <p>
@@ -1120,92 +1133,67 @@
                 <p>
                   <strong>J:</strong> Mm mm.</p>
 
-                <p class="transcript-question">
-                    What’s a small, unremarkable moment with your partner that you think about more than you probably should?
-                  </p>
+                <p class="transcript-question">What’s a small, unremarkable moment with your partner that you think about more than you probably should?</p>
 
                 <p>
-                  <strong>Z:</strong>
-                    ...there were so many times we’d spend hours laughing and sharing stories. We always go back to this phrase
-                    <span class="hl" data-key="up-all-night">"up all night"</span>.
-                    It felt like we could be children together and just excited to talk to each other all night. I think about that a lot. 
-                  </p>
+                  <strong>Z:</strong> ...there were so many times we’d spend hours laughing and sharing stories. We always go back to this phrase <span class="hl" data-key="up-all-night" role="button" tabindex="0" aria-label="View photo: Up all night">"up all night"</span>. It felt like we could be children together and just excited to talk to each other all night. I think about that a lot.</p>
                 <p>
                   <strong>J:</strong> That’s always fun.</p>
 
                 <p class="transcript-question">What something that you were wrong about?</p>
 
                 <p>
-                  <strong>J:</strong> So many things. But… I didn’t think I’d get married. Friends always said I would be the last one to get married. I didn’t think it would happen at all. I just had never met the right person.
-                  </p>
+                  <strong>J:</strong> So many things. But… I didn’t think I’d get married. Friends always said I would be the last one to get married. I didn’t think it would happen at all. I just had never met the right person.</p>
                 <p>
                   <strong>Z:</strong> Mm. That’s nice.</p>
 
-                <p class="transcript-question">
-                    What’s the most useless skill you have that your partner finds inexplicably attractive?
-                  </p>
+                <p class="transcript-question">What’s the most useless skill you have that your partner finds inexplicably attractive?</p>
 
                 <p>
-                  <strong>Z:</strong>
-               When I try to do handiwork
-                    — which is a lack of skill — but you get really excited about me doing the basic stuff.
-                  </p>
+                  <strong>Z:</strong> When I try to do handiwork — which is a lack of skill — but you get really excited about me doing the basic stuff.</p>
                 <p>
-                  <strong>J:</strong>  Have you finished — stopped, uh, the recording?     </p>
+                  <strong>J:</strong> Have you finished — stopped, uh, the recording?</p>
                 <p>
-                  <strong>Z:</strong>No.</p>
+                  <strong>Z:</strong> No.</p>
 
                 <p>
                   <strong>J:</strong> This isn’t always a useless skill because it has gotten us free things, but I love the way you banter and chat with everyone -- with the uber drivers, deli guys and airport security. I love watching how much fun people have interacting with you.</p>
 
                 <p>
-                  <strong>Z:</strong>Aww. Thank you bebe!</p>
+                  <strong>Z:</strong> Aww. Thank you bebe!</p>
 
                 <p class="transcript-question">What did love look like in the house you grew up in?</p>
 
                 <p>
                   <strong>J:</strong> Commitment. Forgiveness. Staying together even when it’s hard. And my parents always encouraging us and wanting the best for us.</p>
 
-                <p class="transcript-question">
-                    What’s the most boring thing you do together that somehow became sacred?
-                  </p>
+                <p class="transcript-question">What’s the most boring thing you do together that somehow became sacred?</p>
 
                 <p>
-                  <strong>J:</strong>
-                    Scrolling <span class="hl" data-key="marketplace">Facebook Marketplace</span>.
-                  </p>
+                  <strong>J:</strong> Scrolling <span class="hl" data-key="marketplace" role="button" tabindex="0" aria-label="View photo: Facebook Marketplace">Facebook Marketplace</span>.</p>
                 <p>
-                  <strong>Z:</strong>[Laughs] <em>because it’s true.</em>
+                  <strong>Z:</strong> [Laughs] <em>because it’s true.</em>
                 </p>
 
-                <p class="transcript-question">
-                    What’s a habit of theirs that annoyed you at first but now feels like home?
-                  </p>
+                <p class="transcript-question">What’s a habit of theirs that annoyed you at first but now feels like home?</p>
 
                 <p>
-                  <strong>Z:</strong>
-                    You walking ahead of me too fast.
-                  </p>
+                  <strong>Z:</strong> You walking ahead of me too fast.</p>
                 <p>
-                  <strong>J:</strong> I thought you were going to say that I kick off my shoes when I get home and they hit the wall. </p>
+                  <strong>J:</strong> I thought you were going to say that I kick off my shoes when I get home and they hit the wall.</p>
                 <p>
                   <strong>Z:</strong> That still annoys me.</p>
 
-                <p class="transcript-question">
-                    What’s a meal you’ve eaten together that you’ll never forget — and why wasn’t it about the food?
-                  </p>
+                <p class="transcript-question">What’s a meal you’ve eaten together that you’ll never forget — and why wasn’t it about the food?</p>
 
                 <p>
-                  <strong>Z:</strong> For me, it was the dinner at Dr Clark, on my birthday. But does that make me sound like a basic bitch, saying that I liked it because of presents? What about you? 
-                    </p>
+                  <strong>Z:</strong> For me, it was the dinner at Dr Clark, on my birthday. But does that make me sound like a basic bitch, saying that I liked it because of presents? What about you?</p>
                 <p>
-                  <strong>J:</strong> Hmm. The <span class="hl" data-key="mexico-city">Mexico City tacos</span>.
-                </p>
+                  <strong>J:</strong> Hmm. The <span class="hl" data-key="mexico-city" role="button" tabindex="0" aria-label="View photo: Mexico City tacos">Mexico City tacos</span>.</p>
                 <p>
-                  <strong>Z:</strong> Oh, but that was about the food.
-                </p>
+                  <strong>Z:</strong> Oh, but that was about the food.</p>
                 <p>
-                  <strong>J:</strong> Yeah, but it was also the day wandering the city and ending up there. Or the dinner on the little <span class="hl" data-key="lamu">boat in Lamu.</span></p>
+                  <strong>J:</strong> Yeah, but it was also the day wandering the city and ending up there. Or the dinner on the little <span class="hl" data-key="lamu" role="button" tabindex="0" aria-label="View photo: Boat in Lamu">boat in Lamu.</span></p>
                 <p>
                   <strong>Z:</strong> That was awesome.</p>
               </div>
@@ -1215,50 +1203,50 @@
           <!-- desktop image panel -->
           <div class="about-col transcript-media-wrap">
             <div class="transcript-media" id="transcriptMedia">
-              <img id="transcriptMediaImg" src="photos/us.jpg" alt="Zisiga and Jordan" loading="lazy">
+              <img id="transcriptMediaImg" src="photos/us.jpg" alt="" loading="lazy" width="600" height="450">
             </div>
           </div>
-
         </div>
       </div>
     </div>
   </section>
 
+  <!-- RSVP -->
   <section class="dark">
     <div class="page" style="text-align: center;">
       <p class="rsvp">RSVP</p>
       <p class="dim">Please get back to us by May 15, 2026.</p>
-      <form id="rsvpForm">
+      <form id="rsvpForm" novalidate>
         <p class="dim">Will you join us?</p>
         <div class="gap"></div>
-        <div class="rsvp-choices">
-          <button type="button" id="btnYes">Joyfully Accept</button>
-          <button type="button" id="btnNo">Regretfully Decline</button>
+        <div class="rsvp-choices" role="group" aria-label="RSVP choice">
+          <button type="button" id="btnYes" aria-pressed="false">Joyfully Accept</button>
+          <button type="button" id="btnNo" aria-pressed="false">Regretfully Decline</button>
         </div>
-        <div class="rsvp-fields is-hidden" id="acceptFields">
+        <div class="rsvp-fields" id="acceptFields">
           <div class="rsvp-row">
-            <input type="text" name="name" placeholder="Name(s)">
-            <input type="email" name="email" placeholder="Email address">
+            <input type="text" name="name" placeholder="Name(s)" autocomplete="name">
+            <input type="email" name="email" placeholder="Email address" autocomplete="email">
           </div>
           <div class="rsvp-row">
-            <input type="text" name="phone" placeholder="Phone number">
+            <input type="text" name="phone" placeholder="Phone number" autocomplete="tel">
             <input type="text" name="dietary" placeholder="Dietary restrictions or accessibility needs">
           </div>
           <select name="accommodation">
             <option value="">Accommodation preference</option>
-            <option>I’ll arrange my own</option>
-            <option>Need help deciding</option>
+            <option value="own">I’ll arrange my own</option>
+            <option value="help">Need help deciding</option>
           </select>
           <select name="shuttle">
             <option value="">Transportation to Naivasha</option>
-            <option>I need a shuttle to Naivasha</option>
-            <option>I will get there on my own</option>
-            <option>I don’t know yet</option>
+            <option value="need">I need a shuttle to Naivasha</option>
+            <option value="own">I will get there on my own</option>
+            <option value="unsure">I don’t know yet</option>
           </select>
         </div>
-        <div class="rsvp-fields is-hidden" id="declineFields">
+        <div class="rsvp-fields" id="declineFields">
           <div class="rsvp-row">
-            <input type="text" name="declineName" placeholder="Name(s)">
+            <input type="text" name="declineName" placeholder="Name(s)" autocomplete="name">
           </div>
           <input type="text" name="declineMessage" placeholder="Send a message (optional)">
         </div>
@@ -1267,6 +1255,7 @@
     </div>
   </section>
 
+  <!-- Schedule -->
   <section class="light" id="schedule">
     <div class="page">
       <h2>The Wedding Weekend</h2>
@@ -1274,6 +1263,7 @@
     </div>
   </section>
 
+  <!-- Travel -->
   <section class="light" id="travel">
     <div class="page">
       <h2>Getting<br>There</h2>
@@ -1284,29 +1274,29 @@
       <p style="font-weight: 800;">Shuttles</p>
       <p>Shuttles will be available for everyone attending — not just out-of-town visitors. Getting to Naivasha, we’ve gotchu.</p>
       <p>We’re working on arranging group shuttles between Nairobi and Naivasha for the main arrival and departure days. Details will be shared as we get closer.</p>
-      <p class="dim">Nairobi  ▸  Naivasha — To be confirmed<br>Naivasha  ▸  Nairobi — To be confirmed</p>
+      <p class="dim">Nairobi ▸ Naivasha — To be confirmed<br>Naivasha ▸ Nairobi — To be confirmed</p>
       <div class="gap-sm"></div>
     </div>
   </section>
 
+  <!-- Where to Stay -->
   <section class="dark" id="stay">
     <div class="page">
       <h2>Where<br>to Stay</h2>
       <div class="about-cols">
         <div class="about-col">
-          <div>
-            <p>We’re putting together a list of places to stay in and around Naivasha, including options on Sanctuary Farm and nearby hotels and Airbnbs. Details coming soon.</p>
-          </div>
+          <p>We’re putting together a list of places to stay in and around Naivasha, including options on Sanctuary Farm and nearby hotels and Airbnbs. Details coming soon.</p>
         </div>
         <div class="about-col">
           <div class="about-photo">
-            <img src="https://www.kenya-experience.com/wp-content/uploads/2024/12/crescent-island-walk-zebras.jpg" alt="naivasha wildlife">
+            <img src="https://www.kenya-experience.com/wp-content/uploads/2024/12/crescent-island-walk-zebras.jpg" alt="Zebras near Lake Naivasha" loading="lazy" width="600" height="400">
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FAQ -->
   <section class="muted" id="faq">
     <div class="page">
       <h2>Good<br>to Know</h2>
@@ -1321,7 +1311,7 @@
               <dd>We recommend arriving Thursday, November 26 at the latest, and staying in Nairobi that night. We’ll have a few shuttle pick up points around Nairobi and it might be good to stay near one of them.</dd>
               <dt>What should I pack?</dt>
               <dd>November is Kenya’s short rains season, with warm days and occasional afternoon showers. Bring light layers, a rain jacket, and comfortable shoes. The ceremony is semi-formal, plan to shine!
-                  <p class="dim">
+                <p class="dim">
                   <a href="#" class="packing-trigger">here’s a packing list</a>
                 </p>
               </dd>
@@ -1353,33 +1343,31 @@
     </div>
   </section>
 
+  <!-- Footer -->
   <footer>
     <div class="page">
-
-      <img src="photos/wedding-collage.png" loading="lazy" alt="Zisiga and Jordan" 
-     style="width:40%; display:block; margin:0 auto;">
+      <img src="photos/wedding-collage.png" loading="lazy" alt="Zisiga and Jordan collage" width="400" height="300" style="width: 40%; height: auto; display: block; margin: 0 auto;">
       <p>We can’t wait to see you.</p>
     </div>
-
-    <div style="text-align:center; font-size: 1rem; color: rgba(27,31,27,0.5);">
-        Last updated Feb 21st
-      </div>
+    <div style="text-align: center; font-size: 1rem; color: rgba(27,31,27,0.5);">
+      Last updated Feb 21st
+    </div>
   </footer>
 
-  <!-- RSVP modal -->
-  <div class="modal-overlay" id="modal">
-    <dialog open role="dialog" aria-modal="true">
-      <span class="icon" id="modalIcon">💌</span>
+  <!-- RSVP Modal -->
+  <div class="modal-overlay" id="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <span class="icon" id="modalIcon" aria-hidden="true">💌</span>
       <h3 id="modalTitle">We can’t wait to see you</h3>
       <p id="modalMsg">Your RSVP has been received.</p>
-      <button id="modalClose">Close</button>
-    </dialog>
+      <button id="modalClose" type="button">Close</button>
+    </div>
   </div>
 
-  <!-- Packing overlay -->
-  <div class="packing-overlay" id="packingOverlay">
-    <div class="packing-card">
-      <button class="packing-close" id="packingClose">&times;</button>
+  <!-- Packing Overlay -->
+  <div class="packing-overlay" id="packingOverlay" aria-hidden="true">
+    <div class="packing-card" role="dialog" aria-modal="true" aria-label="Packing list">
+      <button class="packing-close" id="packingClose" type="button" aria-label="Close packing list">&times;</button>
       <h3>Packing List</h3>
       <div class="packing-cols">
         <div>
@@ -1409,37 +1397,42 @@
     </div>
   </div>
 
-  <!-- Transcript overlay (mobile) -->
+  <!-- Transcript Overlay (mobile) -->
   <div class="transcript-overlay" id="transcriptOverlay" aria-hidden="true">
-    <div class="transcript-overlay-card" role="dialog" aria-modal="true" aria-label="Transcript moment">
-      <button class="transcript-overlay-close" id="transcriptOverlayClose" aria-label="Close">&times;</button>
-      <img id="transcriptOverlayImg" src="photos/us.jpg" alt="">
+    <div class="transcript-overlay-card" role="dialog" aria-modal="true" aria-label="Transcript photo">
+      <button class="transcript-overlay-close" id="transcriptOverlayClose" type="button" aria-label="Close">&times;</button>
+      <img id="transcriptOverlayImg" src="photos/us.jpg" alt="" width="600" height="450">
     </div>
   </div>
 
   <script>
-
+    /* =========================================================
+       UTILITY
+    ========================================================= */
     const $ = (s, el = document) => el.querySelector(s);
     const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
-    /* =========================
-     NAV: smooth scroll + show/hide + active link
-  ========================= */
+    /* =========================================================
+       NAV: smooth scroll + show/hide + active link
+    ========================================================= */
     const nav = $('#nav');
     const navLinks = $$('a[data-to]', nav);
-    const sectionEls = navLinks.map(a => $(`#${a.dataset.to}`));
+    const sectionEls = navLinks.map(a => document.getElementById(a.dataset.to));
 
+    // Nav click: CSS scroll-behavior handles smooth scroll, JS just updates hash cleanly
     navLinks.forEach(link => {
-      link.addEventListener('click', () => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
         const target = document.getElementById(link.dataset.to);
         if (target) {
-          target.scrollIntoView({behavior: 'smooth'});
+          history.replaceState(null, '', `#${link.dataset.to}`);
         }
       });
     });
 
     let activeIndex = 0;
     let lastAutoScrollIndex = -1;
+    const isMobileNav = () => matchMedia('(max-width: 40em)').matches;
 
     function updateNav() {
       const threshold = innerHeight * 0.4;
@@ -1453,18 +1446,25 @@
         }
       }
 
+      // Snap to last section if scrolled to bottom
       if (scrollY + innerHeight >= document.documentElement.scrollHeight - 10) {
         nextActive = sectionEls.length - 1;
       }
 
-      activeIndex = nextActive;
-      navLinks.forEach((a, i) => a.classList.toggle('is-active', i === activeIndex));
+      if (nextActive !== activeIndex) {
+        activeIndex = nextActive;
+        navLinks.forEach((a, i) => {
+          if (i === activeIndex) a.setAttribute('aria-current', 'true');
+          else a.removeAttribute('aria-current');
+        });
 
-      // Mobile: keep active item centered in the horizontal scroll nav
-      if (matchMedia('(max-width: 40em)').matches && activeIndex !== lastAutoScrollIndex) {
-        const activeLink = navLinks[activeIndex];
-        if (activeLink) {
-          activeLink.scrollIntoView({behavior: 'smooth', inline: 'center', block: 'nearest'});
+        // Mobile: keep active item centered
+        if (isMobileNav() && activeIndex !== lastAutoScrollIndex) {
+          navLinks[activeIndex]?.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center',
+            block: 'nearest'
+          });
           lastAutoScrollIndex = activeIndex;
         }
       }
@@ -1473,91 +1473,110 @@
     let ticking = false;
 
     function onScrollRaf() {
-      // show/hide nav
-      nav
-        .classList
-        .toggle('is-hidden', window.scrollY < 100);
-
-      // active link logic
+      nav.setAttribute('aria-hidden', scrollY < 100 ? 'true' : 'false');
       updateNav();
-
       ticking = false;
     }
 
     window.addEventListener('scroll', () => {
-      if (ticking) 
-        return;
-      ticking = true;
-      requestAnimationFrame(onScrollRaf);
-    }, {passive: true});
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(onScrollRaf);
+      }
+    }, { passive: true });
 
-    // run once on load so state is correct without scrolling
+    // Initial state
     onScrollRaf();
 
-    const heroVideo = document.querySelector(".hero-video");
+    /* =========================================================
+       HERO VIDEO
+    ========================================================= */
+    const heroVideo = $('.hero-video');
     if (heroVideo) {
-      heroVideo
-        .play()
-        .catch(() => {});
+      const conn = navigator.connection;
+      const saveData = conn?.saveData;
+      const slowNet = ['slow-2g', '2g', '3g'].includes(conn?.effectiveType);
+
+      if (!saveData && !slowNet) {
+        heroVideo.play().catch(() => {
+          // Autoplay blocked — poster fallback is fine
+        });
+      } else {
+        // On slow connections, don't even try to load video
+        heroVideo.removeAttribute('autoplay');
+        heroVideo.preload = 'none';
+      }
     }
 
-    const saveData = navigator.connection
-      ?.saveData;
-    const slowNet = ["slow-2g", "2g", "3g"].includes(
-      navigator.connection
-      ?.effectiveType);
-
-    if (!saveData && !slowNet && heroVideo) {
-      heroVideo.setAttribute("autoplay", "");
-      heroVideo.load();
-      heroVideo
-        .play()
-        .catch(() => {});
-    }
-    /* =========================
-     SCHEDULE RENDER
-  ========================= */
+    /* =========================================================
+       SCHEDULE RENDER
+    ========================================================= */
     const SCHEDULE = [
       {
         date: 'Friday, November 27, 2026',
         body: 'Shuttles will depart Nairobi around midday for the scenic drive to Naivasha. After arrival and time to settle in, join us at Sanctuary Farm for cocktails, dinner, and a welcome gathering under the stars.'
-      }, {
+      },
+      {
         date: 'Saturday, November 28, 2026',
-        body: 'Guests staying in Naivasha are invited to enjoy a relaxed morning exploring the area. In the afternoon, we will gather at Sanctuary Farm, overlooking Lake Naivasha, for the ceremony and celebration, followed by dinner and drinks.<br><br> For guests joining us for the day, Sanctuary Farm is approximately 90 km from Nairobi (about a 1.5-hour drive). Parking will be available on-site.<br>',
+        body: 'Guests staying in Naivasha are invited to enjoy a relaxed morning exploring the area. In the afternoon, we will gather at Sanctuary Farm, overlooking Lake Naivasha, for the ceremony and celebration, followed by dinner and drinks.<br><br>For guests joining us for the day, Sanctuary Farm is approximately 90 km from Nairobi (about a 1.5-hour drive). Parking will be available on-site.',
         map: true
-      }, {
+      },
+      {
         date: 'Sunday, November 29, 2026',
         body: 'We will close the weekend with a farewell brunch before departures. Return shuttle timing and details will be shared closer to the date.'
       }
     ];
 
-    const MAP_EMBED = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8430.891344949507!2d36.412963480834556!3d-0.788038505226701!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x18293d006232edf3%3A0x1ba1e997a1b96e71!2sLake%20Naivasha!5e1!3m2!1sen!2sus!4v1771782196551!5m2!1sen!2sus";
+    const MAP_EMBED = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8430.891344949507!2d36.412963480834556!3d-0.788038505226701!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x18293d006232edf3%3A0x1ba1e997a1b96e71!2sLake%20Naivasha!5e1!3m2!1sen!2sus!4v1771782196551!5m2!1sen!2sus';
     const MAP_LINK = 'https://www.google.com/maps/dir/Jomo+Kenyatta+International+Airport,+Nairobi/Lake+Naivasha';
 
     const scheduleList = $('#scheduleList');
     if (scheduleList) {
-      scheduleList.innerHTML = SCHEDULE
-        .map(
-          s => `
-      <div class="day">
-        <p>${s.date}</p>
-        <p>${s.body}</p>
-        ${s.map
-          ? `
-          <div class="map">
-            <iframe src="${MAP_EMBED}" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-          <p class="dimmer">Sanctuary Farm, Naivasha · 90 km from Nairobi · ~1.5 hours — <a href="${MAP_LINK}" target="_blank" rel="noopener">Open in Google Maps</a></p>
-        `
-          : ''}
-      </div>
-    `)
-        .join('');
+      const fragment = document.createDocumentFragment();
+
+      SCHEDULE.forEach(s => {
+        const day = document.createElement('div');
+        day.className = 'day';
+        day.innerHTML = `
+          <p>${s.date}</p>
+          <p>${s.body}</p>
+          ${s.map ? `
+            <div class="map">
+              <iframe
+                src="${MAP_EMBED}"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Map to Sanctuary Farm, Naivasha"
+              ></iframe>
+            </div>
+            <p class="dimmer">Sanctuary Farm, Naivasha · 90 km from Nairobi · ~1.5 hours — <a href="${MAP_LINK}" target="_blank" rel="noopener">Open in Google Maps</a></p>
+          ` : ''}
+        `;
+        fragment.appendChild(day);
+      });
+
+      scheduleList.appendChild(fragment);
     }
 
-    /* =========================
-     RSVP
-  ========================= */
+    /* =========================================================
+       MODAL HELPERS (shared logic)
+    ========================================================= */
+    function openOverlay(overlay) {
+      overlay.classList.add('is-visible');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeOverlay(overlay) {
+      overlay.classList.remove('is-visible');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    /* =========================================================
+       RSVP FORM
+    ========================================================= */
     const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwxZ9rl9n-dmYLFeaNE2iA5BW0Fv0QoXubmoo8AU8SWbdLFOAFWgdkazWK2QXbu/exec';
 
     const form = $('#rsvpForm');
@@ -1572,84 +1591,52 @@
 
     function setAttending(yes) {
       attending = yes;
-      btnYes
-        .classList
-        .toggle('is-selected', yes);
-      btnNo
-        .classList
-        .toggle('is-selected', !yes);
-      acceptFields
-        .classList
-        .toggle('is-hidden', !yes);
-      declineFields
-        .classList
-        .toggle('is-hidden', yes);
-      submitBtn.textContent = yes
-        ? 'Submit RSVP'
-        : 'Send Regrets';
+      btnYes.setAttribute('aria-pressed', yes ? 'true' : 'false');
+      btnNo.setAttribute('aria-pressed', yes ? 'false' : 'true');
+
+      acceptFields.classList.toggle('is-visible', yes);
+      declineFields.classList.toggle('is-visible', !yes);
+
+      submitBtn.textContent = yes ? 'Submit RSVP' : 'Send Regrets';
     }
 
     function showModal(accepted) {
-      $('#modalIcon').textContent = accepted
-        ? '💌'
-        : '💚';
+      $('#modalIcon').textContent = accepted ? '💌' : '💚';
       $('#modalTitle').textContent = accepted
         ? "We can't wait to see you"
         : "We'll miss you";
       $('#modalMsg').textContent = accepted
         ? "Your RSVP has been received. Keep an eye on your inbox for updates and travel details as we get closer to November."
         : "Thank you for letting us know. We'll be thinking of you and hope to celebrate together another time.";
-      modal
-        .classList
-        .add('is-visible');
-      document
-        .body
-        .classList
-        .add('modal-open');
+      openOverlay(modal);
     }
 
-    function hideModal() {
-      modal
-        .classList
-        .remove('is-visible');
-      document
-        .body
-        .classList
-        .remove('modal-open');
-    }
+    btnYes?.addEventListener('click', () => setAttending(true));
+    btnNo?.addEventListener('click', () => setAttending(false));
+    $('#modalClose')?.addEventListener('click', () => closeOverlay(modal));
+    modal?.addEventListener('click', e => {
+      if (e.target === modal) closeOverlay(modal);
+    });
 
-    btnYes
-      ?.addEventListener('click', () => setAttending(true));
-    btnNo
-      ?.addEventListener('click', () => setAttending(false));
-    $('#modalClose')
-      ?.addEventListener('click', hideModal);
-    modal
-      ?.addEventListener('click', e => {
-        if (e.target === modal) 
-          hideModal();
-        }
-      );
+    form?.addEventListener('submit', async e => {
+      e.preventDefault();
 
-    form
-      ?.addEventListener('submit', async e => {
-        e.preventDefault();
+      if (attending === null) {
+        // Shake the buttons to indicate choice is required
+        [btnYes, btnNo].forEach(b => {
+          b.style.animation = 'shake 0.4s';
+          b.addEventListener('animationend', () => { b.style.animation = ''; }, { once: true });
+        });
+        return;
+      }
 
-        if (attending === null) {
-          [btnYes, btnNo].forEach(b => {
-            b.style.animation = 'shake 0.4s';
-            setTimeout(() => b.style.animation = '', 400);
-          });
-          return;
-        }
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
 
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
+      const val = name => $(`[name="${name}"]`)?.value?.trim() || '';
 
-        const val = name => $(`[name="${name}"]`)
-          ?.value || '';
-        const data = attending
-          ? {
+      const data = attending
+        ? {
             attending: true,
             name: val('name'),
             email: val('email'),
@@ -1658,7 +1645,7 @@
             accommodation: val('accommodation'),
             dietary: val('dietary')
           }
-          : {
+        : {
             attending: false,
             name: val('declineName'),
             email: '',
@@ -1668,234 +1655,167 @@
             dietary: val('declineMessage')
           };
 
-        try {
-          const res = await fetch(ENDPOINT, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'text/plain;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-          });
+      if (!data.name) {
+        alert('Please enter your name.');
+        submitBtn.textContent = attending ? 'Submit RSVP' : 'Send Regrets';
+        submitBtn.disabled = false;
+        return;
+      }
 
-          if (!res.ok) 
-            throw new Error(`HTTP ${res.status}`);
-          
-          if (!res) 
-            throw new Error();
-          
-          showModal(attending);
-          form.reset();
-          acceptFields
-            .classList
-            .add('is-hidden');
-          declineFields
-            .classList
-            .add('is-hidden');
-          btnYes
-            .classList
-            .remove('is-selected');
-          btnNo
-            .classList
-            .remove('is-selected');
-          attending = null;
-        } catch  {
-          alert('Something went wrong. Please try again or contact us directly.');
-        } finally {
-          submitBtn.textContent = 'Submit RSVP';
-          submitBtn.disabled = false;
-        }
-      });
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
 
-    /* =========================
-     PACKING OVERLAY
-  ========================= */
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data),
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        showModal(attending);
+        form.reset();
+        acceptFields.classList.remove('is-visible');
+        declineFields.classList.remove('is-visible');
+        btnYes.setAttribute('aria-pressed', 'false');
+        btnNo.setAttribute('aria-pressed', 'false');
+        attending = null;
+      } catch {
+        alert('Something went wrong. Please try again or contact us directly.');
+      } finally {
+        submitBtn.textContent = 'Submit RSVP';
+        submitBtn.disabled = false;
+      }
+    });
+
+    /* =========================================================
+       PACKING OVERLAY
+    ========================================================= */
     const packingOverlay = $('#packingOverlay');
 
     $$('.packing-trigger').forEach(trigger => {
       trigger.addEventListener('click', e => {
         e.preventDefault();
-        packingOverlay
-          .classList
-          .add('is-visible');
-        document
-          .body
-          .classList
-          .add('modal-open');
+        openOverlay(packingOverlay);
       });
     });
 
-    function closePackingOverlay() {
-      packingOverlay
-        .classList
-        .remove('is-visible');
-      document
-        .body
-        .classList
-        .remove('modal-open');
-    }
+    $('#packingClose')?.addEventListener('click', () => closeOverlay(packingOverlay));
+    packingOverlay?.addEventListener('click', e => {
+      if (e.target === packingOverlay) closeOverlay(packingOverlay);
+    });
 
-    $('#packingClose')
-      ?.addEventListener('click', closePackingOverlay);
-    packingOverlay
-      ?.addEventListener('click', e => {
-        if (e.target === packingOverlay) 
-          closePackingOverlay();
-        }
-      );
-
-    /* =========================
-     TRANSCRIPT (desktop panel + mobile overlay)
-  ========================= */
+    /* =========================================================
+       TRANSCRIPT (desktop panel + mobile overlay)
+    ========================================================= */
     const mediaImg = $('#transcriptMediaImg');
     const transcriptMediaPanel = $('#transcriptMedia');
     const transcriptArea = $('.transcript');
-
-    const overlay = $('#transcriptOverlay');
+    const transcriptOverlay = $('#transcriptOverlay');
     const overlayImg = $('#transcriptOverlayImg');
-    const overlayClose = $('#transcriptOverlayClose');
     const highlights = $$('.hl');
 
     const TRANSCRIPT_MEDIA = {
-      "up-all-night": {
-        src: "photos/up-all-night.jpg",
-        alt: "Up all night"
-      },
-      "marketplace": {
-        src: "photos/wedding-fb-marketplace.jpg",
-        alt: "Facebook Marketplace"
-      },
-      "mexico-city": {
-        src: "photos/mexico.jpg",
-        alt: "Mexico City"
-      },
-      "lamu": {
-        src: "photos/wedding-lamu.jpg",
-        alt: "Boat in Lamu"
-      }
+      'up-all-night': { src: 'photos/up-all-night.jpg', alt: 'Up all night' },
+      'marketplace':  { src: 'photos/wedding-fb-marketplace.jpg', alt: 'Facebook Marketplace' },
+      'mexico-city':  { src: 'photos/mexico.jpg', alt: 'Mexico City' },
+      'lamu':         { src: 'photos/wedding-lamu.jpg', alt: 'Boat in Lamu' }
     };
 
-    const isMobileLike = () => matchMedia('(hover: none)').matches || matchMedia('(max-width: 40em)').matches;
+    const isMobileLike = () =>
+      matchMedia('(hover: none)').matches || matchMedia('(max-width: 40em)').matches;
 
     let overlayTimer = null;
-
-    function startOverlayTimer() {
-      clearTimeout(overlayTimer);
-      overlayTimer = setTimeout(hideTranscriptOverlay, 5000);
-    }
 
     function showTranscriptOverlay(item) {
       overlayImg.src = item.src;
       overlayImg.alt = item.alt || '';
-      overlay
-        .classList
-        .add('is-visible');
-      overlay.setAttribute('aria-hidden', 'false');
-      document
-        .body
-        .classList
-        .add('modal-open');
-      startOverlayTimer();
+      openOverlay(transcriptOverlay);
+      clearTimeout(overlayTimer);
+      overlayTimer = setTimeout(() => closeTranscriptOverlay(), 5000);
     }
 
-    function hideTranscriptOverlay() {
+    function closeTranscriptOverlay() {
       clearTimeout(overlayTimer);
-      overlay
-        .classList
-        .remove('is-visible');
-      overlay.setAttribute('aria-hidden', 'true');
-      document
-        .body
-        .classList
-        .remove('modal-open');
-      highlights.forEach(h => h.classList.remove('is-active'));
+      closeOverlay(transcriptOverlay);
+      highlights.forEach(h => h.setAttribute('aria-selected', 'false'));
     }
 
     function setDesktopPanel(item) {
       mediaImg.src = item.src;
       mediaImg.alt = item.alt || '';
-      transcriptMediaPanel
-        .classList
-        .add('is-visible');
+      transcriptMediaPanel.classList.add('is-visible');
     }
 
-    transcriptArea
-      ?.addEventListener('mouseleave', () => {
-        if (!isMobileLike()) {
-          transcriptMediaPanel
-            .classList
-            .remove('is-visible');
-        }
-      });
+    transcriptArea?.addEventListener('mouseleave', () => {
+      if (!isMobileLike()) {
+        transcriptMediaPanel.classList.remove('is-visible');
+      }
+    });
 
     highlights.forEach(h => {
       const key = h.dataset.key;
 
       h.addEventListener('mouseenter', () => {
-        if (isMobileLike()) 
-          return;
+        if (isMobileLike()) return;
         const item = TRANSCRIPT_MEDIA[key];
-        if (item) 
-          setDesktopPanel(item);
-        }
-      );
-
-      h.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const item = TRANSCRIPT_MEDIA[key];
-        if (!item) 
-          return;
-        
-        highlights.forEach(x => x.classList.remove('is-active'));
-        h
-          .classList
-          .add('is-active');
-
-        if (isMobileLike()) 
-          showTranscriptOverlay(item);
-        else 
-          setDesktopPanel(item);
-        }
-      );
-    });
-
-    overlayClose
-      ?.addEventListener('click', hideTranscriptOverlay);
-    overlay
-      ?.addEventListener('click', e => {
-        if (e.target === overlay) 
-          hideTranscriptOverlay();
-        }
-      );
-
-    $('.transcript-overlay-card')
-      ?.addEventListener('click', e => {
-        e.stopPropagation();
-        startOverlayTimer();
+        if (item) setDesktopPanel(item);
       });
 
-    /* =========================
-     ESC KEY
-  ========================= */
-    addEventListener('keydown', e => {
-      if (e.key !== 'Escape') 
-        return;
-      
-      if (
-        packingOverlay
-        ?.classList.contains('is-visible')) 
-        closePackingOverlay();
-      else if (
-        modal
-        ?.classList.contains('is-visible')) 
-        hideModal();
-      else if (
-        overlay
-        ?.classList.contains('is-visible')) 
-        hideTranscriptOverlay();
+      function activateHighlight(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const item = TRANSCRIPT_MEDIA[key];
+        if (!item) return;
+
+        highlights.forEach(x => x.setAttribute('aria-selected', 'false'));
+        h.setAttribute('aria-selected', 'true');
+
+        if (isMobileLike()) {
+          showTranscriptOverlay(item);
+        } else {
+          setDesktopPanel(item);
+        }
       }
-    );
+
+      h.addEventListener('click', activateHighlight);
+      h.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activateHighlight(e);
+        }
+      });
+    });
+
+    $('#transcriptOverlayClose')?.addEventListener('click', closeTranscriptOverlay);
+    transcriptOverlay?.addEventListener('click', e => {
+      if (e.target === transcriptOverlay) closeTranscriptOverlay();
+    });
+
+    // Reset auto-hide timer when tapping inside the card
+    $('.transcript-overlay-card')?.addEventListener('click', e => {
+      e.stopPropagation();
+      clearTimeout(overlayTimer);
+      overlayTimer = setTimeout(() => closeTranscriptOverlay(), 5000);
+    });
+
+    /* =========================================================
+       GLOBAL ESC KEY
+    ========================================================= */
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+
+      if (packingOverlay?.classList.contains('is-visible')) {
+        closeOverlay(packingOverlay);
+      } else if (modal?.classList.contains('is-visible')) {
+        closeOverlay(modal);
+      } else if (transcriptOverlay?.classList.contains('is-visible')) {
+        closeTranscriptOverlay();
+      }
+    });
   </script>
 </body>
 </html>
