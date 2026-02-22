@@ -973,7 +973,7 @@
       padding: 3rem;
       border: none;
       text-align: center;
-      margin: 0;
+      margin: 0 auto;
       color: var(--primary);
       transform: translateY(16px) scale(0.98);
       transition: transform 0.4s;
@@ -1066,21 +1066,11 @@
   muted
   loop
   playsinline
-  preload="none"
+  autoplay
+  preload="metadata"
 >
-      <!-- Mobile video -->
-      <source
-    src="photos/hero-mobile.mp4"
-    type="video/mp4"
-    media="(max-width: 768px)"
-/>
-
-      <!-- Desktop video -->
-      <source
-    src="photos/hero-desktop.mp4"
-    type="video/mp4"
-    media="(min-width: 769px)"
-/>
+      <source src="photos/hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)"/>
+      <source src="photos/hero-desktop.mp4" type="video/mp4" media="(min-width: 769px)"/>
     </video>
     <div class="page">
       <h1>Zisiga & Jordan</h1>
@@ -1442,10 +1432,10 @@
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
         const target = document.getElementById(link.dataset.to);
-        if (target) 
+        if (target) {
           target.scrollIntoView({behavior: 'smooth'});
         }
-      );
+      });
     });
 
     let activeIndex = 0;
@@ -1504,8 +1494,12 @@
     // run once on load so state is correct without scrolling
     onScrollRaf();
 
-    /* HERO VIDEO: load only on fast connections */
     const heroVideo = document.querySelector(".hero-video");
+    if (heroVideo) {
+      heroVideo
+        .play()
+        .catch(() => {});
+    }
 
     const saveData = navigator.connection
       ?.saveData;
@@ -1537,7 +1531,7 @@
       }
     ];
 
-    const MAP_EMBED = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.0!2d36.35!3d-0.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182991239f504b23%3A0x7eb6b0e5b3b3c1e0!2sLake%20Naivasha!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske';
+    const MAP_EMBED = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8430.891344949507!2d36.412963480834556!3d-0.788038505226701!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x18293d006232edf3%3A0x1ba1e997a1b96e71!2sLake%20Naivasha!5e1!3m2!1sen!2sus!4v1771782196551!5m2!1sen!2sus";
     const MAP_LINK = 'https://www.google.com/maps/dir/Jomo+Kenyatta+International+Airport,+Nairobi/Lake+Naivasha';
 
     const scheduleList = $('#scheduleList');
@@ -1677,13 +1671,15 @@
         try {
           const res = await fetch(ENDPOINT, {
             method: 'POST',
-            mode: 'cors',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'text/plain;charset=utf-8'
             },
             body: JSON.stringify(data)
           });
 
+          if (!res.ok) 
+            throw new Error(`HTTP ${res.status}`);
+          
           if (!res) 
             throw new Error();
           
@@ -1824,12 +1820,12 @@
 
     transcriptArea
       ?.addEventListener('mouseleave', () => {
-        if (!isMobileLike()) 
+        if (!isMobileLike()) {
           transcriptMediaPanel
             .classList
             .remove('is-visible');
         }
-      );
+      });
 
     highlights.forEach(h => {
       const key = h.dataset.key;
